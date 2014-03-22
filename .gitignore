@@ -1,5 +1,6 @@
 # Editor temp files
 *~
+.*.swp
 
 # Python byte-compiled / optimized / DLL files
 *.py[cod]
