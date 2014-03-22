@@ -1,7 +1,8 @@
-show_site_down_error = ->
-  $(".contentbox").html "<div class=\"row-fluid\"><div class=\"offset1 span10\"><div class=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>An error occured. picoCTF may be down. Please contact use at <a href=\"mailto:support@picoctf.com\">support@picoctf.com</a></div></div></div>"
+window.show_site_down_error = ->
+  $(".contentbox").html "<div class=\"row-fluid\"><div class=\"offset1 span10\"><div class=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>发生了未知错误. 请联系<a href=\"mailto:actf.zju@gmail.com\">actf.zju@gmail.com</a></div></div></div>"
   return
-build_navbar = (tabs) ->
+
+window.build_navbar = (tabs) ->
   ohtml = ""
   i = 0
 
@@ -13,7 +14,9 @@ build_navbar = (tabs) ->
     i++
   $("#navbar")[0].innerHTML = ohtml
   return
-add_certs_link = ->
+
+###
+window.add_certs_link = ->
   ohtml = $("#navbar")[0].innerHTML
   unless window.location.href.indexOf("certificates") is -1
     ohtml = "<li class=\"ts_selected\" id=\"ts_certificates\"><a href=\"certificates\">Certificates</a></li>" + ohtml
@@ -21,7 +24,8 @@ add_certs_link = ->
     ohtml = "<li id=\"ts_certificates\"><a href=\"certificates\">Certificates</a></li>" + ohtml
   $("#navbar")[0].innerHTML = ohtml
   return
-check_certs_link_necessary = ->
+  
+window.check_certs_link_necessary = ->
   unless typeof (Storage) is "undefined"
     if sessionStorage.showCertsLink is "true"
       add_certs_link()
@@ -51,11 +55,13 @@ check_certs_link_necessary = ->
       return
 
   return
-display_navbar = ->
+###
+
+window.display_navbar = ->
   unless typeof (Storage) is "undefined"
     if sessionStorage.signInStatus is "loggedIn"
       build_navbar tabsLI
-      check_certs_link_necessary()
+      # check_certs_link_necessary()
     else if sessionStorage.signInStatus is "notLoggedIn"
       build_navbar tabsNLI
     else if sessionStorage.signInStatus is "apiFail"
@@ -70,7 +76,7 @@ display_navbar = ->
       if data["success"] is 1 and sessionStorage.signInStatus isnt "loggedIn"
         sessionStorage.signInStatus = "loggedIn"
         build_navbar tabsLI
-        check_certs_link_necessary()
+        # check_certs_link_necessary()
       else if data["success"] is 0 and sessionStorage.signInStatus isnt "notLoggedIn"
         sessionStorage.signInStatus = "notLoggedIn"
         build_navbar tabsNLI
@@ -96,7 +102,8 @@ display_navbar = ->
       return
 
   return
-load_footer = ->
+
+window.load_footer = ->
   $.ajax(
     type: "GET"
     cache: false
@@ -106,7 +113,8 @@ load_footer = ->
     return
 
   return
-handle_submit = (prob_id) ->
+
+window.handle_submit = (prob_id) ->
   $.ajax(
     type: "POST"
     cache: false
@@ -133,7 +141,8 @@ handle_submit = (prob_id) ->
     return
 
   return
-redirect_if_not_logged_in = ->
+
+window.redirect_if_not_logged_in = ->
   $.ajax(
     type: "GET"
     url: "/api/isloggedin"
@@ -146,93 +155,72 @@ redirect_if_not_logged_in = ->
     return
 
   return
-tabsLI = [
-  [
-    "compete"
-    "Game"
-  ]
-  [
-    "irc"
-    "chat"
-  ]
-  [
-    "webshell"
-    "Shell"
-  ]
+
+window.tabsLI = [
   [
     "scoreboard"
-    "Scoreboard"
+    "排名"
   ]
   [
     "news"
-    "News"
+    "公告"
   ]
   [
-    "learn"
-    "Learn"
-  ]
-  [
-    "faq"
-    "FAQ"
+    "rules"
+    "规则"
   ]
   [
     "account"
-    "Account"
+    "账户信息"
   ]
   [
     "logout"
-    "Logout"
+    "注销"
   ]
 ]
-tabsNLI = [
+
+window.tabsNLI = [
   [
     "about"
-    "About"
+    "关于"
   ]
   [
-    "scoreboard"
-    "Scoreboard"
-  ]
-  [
-    "faq"
-    "FAQ"
-  ]
-  [
-    "registration"
-    "Registration"
+    "rules"
+    "规则"
   ]
   [
     "news"
-    "News"
+    "公告"
   ]
   [
-    "learn"
-    "Learn"
-  ]
-  [
-    "contact"
-    "Contact"
+    "registration"
+    "注册"
   ]
   [
     "login"
-    "Login"
+    "登录"
   ]
 ]
-tabsFail = [
+
+window.tabsFail = [
   [
     "about"
-    "About"
+    "关于"
   ]
   [
-    "faq"
-    "FAQ"
+    "rules"
+    "规则"
   ]
   [
-    "learn"
-    "Learn"
+    "news"
+    "公告"
   ]
   [
-    "contact"
-    "Contact"
+    "registration"
+    "注册"
+  ]
+  [
+    "login"
+    "登录"
   ]
 ]
