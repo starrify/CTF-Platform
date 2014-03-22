@@ -1,0 +1,6 @@
+# Editor temp files
+*~
+
+# Python byte-compiled / optimized / DLL files
+*.py[cod]
+__pycache__
