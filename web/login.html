@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes ">
-    <meta name="description" content="CTF Platform">
-    <title>CTF Platform</title>
+    <meta name="description" content="ACTF Platform">
+    <title>安恒杯 第一届浙江大学信息安全技术挑战赛平台</title>
     <link href="css/jquery.ambiance.css" rel="stylesheet" media="screen">
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="css/main.css" rel="stylesheet" media="screen">
@@ -14,7 +14,7 @@
 <body>
 <div class="navbar">
     <div class="navbar-inner">
-        <a class="brand" href="/">CTF Platform</a>
+        <a class="brand" href="/">安恒杯 第一届浙江大学信息安全技术挑战赛</a>
         <ul id="navbar" class="nav">
         </ul>
     </div>
@@ -26,18 +26,17 @@
                 <div id="login_msg"></div>
                 <form class="form-horizontal" action="" onsubmit="return false;">
                     <div class="control-group">
-                        <label class="control-label registration-label" for="reg-team">Team Name</label>
+                        <label class="control-label registration-label" for="reg-team">登陆名</label>
 
-                        <div class="controls registration-controls">
-                            <input name="teamname" id="reg-team" placeholder="Team Name" type="text">
+                            <div class="controls registration-controls">
+                                <input name="teamname" id="reg-team" placeholder="登陆名" type="text">
+                            </div>
                         </div>
-                    </div>
-
                     <div class="control-group">
-                        <label class="control-label registration-label" for="reg-pass">Password</label>
+                        <label class="control-label registration-label" for="reg-pass">密码</label>
 
                         <div class="controls registration-controls">
-                            <input name="password" id="reg-pass" placeholder="Password" type="password">
+                            <input name="password" id="reg-pass" placeholder="密码" type="password">
                         </div>
                     </div>
 
@@ -45,16 +44,15 @@
                         <div class="controls registration-controls">
                             <button id="login-button" type="submit" onclick="handle_login();"
                                     class="btn btn-primary">
-                                Login
+                                登陆
                             </button>
                             <button id="forgot-button" onclick="handle_forgot_password_submit();"
                                     class="btn btn-primary">
-                                Forgot Password
+                                忘记密码
                             </button>
                         </div>
                     </div>
                 </form>
-                <div id="forgot_teamname_link"><a href="teamnamelookup">I forgot my team name.</a></div>
             </div>
         </div>
     </div>
