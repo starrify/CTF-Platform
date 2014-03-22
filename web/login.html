@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes ">
     <meta name="description" content="ACTF Platform">
-    <title>ACTF|登入</title>
+    <title>ACTF|登录</title>
     <link href="css/jquery.ambiance.css" rel="stylesheet" media="screen">
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="css/main.css" rel="stylesheet" media="screen">
@@ -26,10 +26,10 @@
                 <div id="login_msg"></div>
                 <form class="form-horizontal" action="" onsubmit="return false;">
                     <div class="control-group">
-                        <label class="control-label registration-label" for="reg-team">登陆名</label>
+                      <label class="control-label registration-label" for="reg-team">用户名</label>
 
                             <div class="controls registration-controls">
-                                <input name="teamname" id="reg-team" placeholder="登陆名" type="text">
+                                <input name="teamname" id="reg-team" placeholder="用户名" type="text">
                             </div>
                         </div>
                     <div class="control-group">
@@ -44,7 +44,7 @@
                         <div class="controls registration-controls">
                             <button id="login-button" type="submit" onclick="handle_login();"
                                     class="btn btn-primary">
-                                登陆
+                                登录
                             </button>
                             <button id="forgot-button" onclick="handle_forgot_password_submit();"
                                     class="btn btn-primary">

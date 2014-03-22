@@ -1,5 +1,9 @@
 /* Site Theme */
 
+body {
+  padding-top: 70px;
+}
+
 /** Containers **/
 
 .container-narrow {
@@ -52,7 +56,7 @@ hr {
 
 
 .navbar-inner {
-    max-width: 1250px;
+    max-width: 800px;
 
     padding: 5px 0px 5px 0px;
 
