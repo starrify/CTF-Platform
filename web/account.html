@@ -1,57 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
+<!doctype html>
+<html><head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 		<meta name="description" content="ACTF">
     <title>ACTF|账户设置</title>
 		<link href="css/jquery.ambiance.css" rel="stylesheet" media="screen">
 		<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
 		<link href="css/main.css" rel="stylesheet" media="screen">
-		<link href="compete/lib/dark-hive/jquery-ui-1.10.2.custom.css" rel="stylesheet" media="screen">
 	</head>
 	<body>
-		<div class="navbar">
-			<div class="navbar-inner">
-				<a class="brand" href="/">ACTF</a>
-				<ul id="navbar" class="nav"></ul>
-			</div>
-		</div>
-		<div class="container-narrow">
-			<div class="container-narrow">
-				<div class="row-fluid">
-					<div class="contentbox row-fluid">
-						<div class="offset1 span10">
-							<h2>账户设置</h2>
-							<h3>修改密码</h3>
-							<div id="password_reset_section">
-								<form class="form-horizontal">
-									<div class="control-group">
-										<label class="control-label registration-label" for="new-pass">新密码</label>
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="/">ACTF</a>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul id="navbar" class="nav navbar-nav">
+            </ul>
+          </div>
+        </div>
+    </div>
+		<div class="container">
+			<div class="contentbox row">
+				<div class="col-lg-offset-1 col-sm-10 col-md-10">
+					<h2>账户设置</h2>
+					<h3>修改密码</h3>
+					<div id="password_reset_section">
+						<form class="form-horizontal">
+							<div class="form-group">
+								<label class="control-label registration-label" for="new-pass">新密码</label>
 
-										<div class="controls registration-controls">
-											<input id="new-pass" placeholder="**********" type="password">
-										</div>
-									</div>
-									<div class="control-group">
-										<label class="control-label registration-label" for="new-pass">确认密码</label>
-
-										<div class="controls registration-controls">
-											<input id="conf-pass" placeholder="**********" type="password">
-										</div>
-									</div>
-
-									<div class="control-group">
-										<div class="controls registration-controls">
-											<button id="update-password-button" type="submit" class="btn btn-primary">
-												修改
-											</button>
-										</div>
-									</div>
-								</form>
-								<div id="update_pwd_msg"></div>
+								<div class="controls registration-controls">
+									<input id="new-pass" placeholder="**********" type="password" class="form-control">
+								</div>
 							</div>
-						</div>
+							<div class="form-group">
+								<label class="control-label registration-label" for="new-pass">确认密码</label>
+
+								<div class="controls registration-controls">
+									<input id="conf-pass" placeholder="**********" type="password" class="form-control">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="controls registration-controls">
+									<button id="update-password-button" type="submit" class="btn btn-primary">
+										修改
+									</button>
+								</div>
+							</div>
+						</form>
+						<div id="update_pwd_msg"></div>
 					</div>
 				</div>
 			</div>
@@ -71,5 +71,5 @@
 				load_footer();
 			})
 		</script>
-	</body>
-</html>
+	
+</body></html>
