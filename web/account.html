@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes ">
 		<meta name="description" content="ACTF">
-		<title>CTF Platform</title>
+    <title>ACTF|账户设置</title>
 		<link href="css/jquery.ambiance.css" rel="stylesheet" media="screen">
 		<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 		<link href="css/main.css" rel="stylesheet" media="screen">
@@ -22,62 +22,29 @@
 				<div class="row-fluid">
 					<div class="contentbox row-fluid">
 						<div class="offset1 span10">
-							<h2>Account Settings</h2>
-							<h3>Group Membership</h3>
-							<p>
-								You are currently a member of the following
-								groups. A red group name indicates that you are an owner of that group.
-								The button at the end of the row allows you to leave a group.
-							</p>
-							<div class="row-fluid">
-								<div class="offset3 span6">
-									<div id="group_membership_table">You are not currently a member of any groups.</div>
-								</div>
-							</div>
-							<h3>Group Management</h3>
-							<div id="group_join_section">
-								<form class="form-horizontal">
-									<div class="control-group">
-										<label class="control-label registration-label" for="group_join_input">Group</label>
-										<div class="controls registration-controls">
-											<input id="group_join_input" placeholder="Group" type="text">
-										</div>
-									</div>
-									<div class="control-group">
-										<div class="controls registration-controls">
-											<button id="join-group-button" type="submit" class="btn btn-primary">
-												Join
-											</button>
-											<button id="create-group-button" type="submit" class="btn btn-primary">
-												Create
-											</button>
-										</div>
-									</div>
-								</form>
-								<div id="join_group_msg"></div>
-							</div>
-							<h3>Change Password</h3>
+							<h2>账户设置</h2>
+							<h3>修改密码</h3>
 							<div id="password_reset_section">
 								<form class="form-horizontal">
 									<div class="control-group">
-										<label class="control-label registration-label" for="new-pass">New Password</label>
+										<label class="control-label registration-label" for="new-pass">新密码</label>
 
 										<div class="controls registration-controls">
-											<input id="new-pass" placeholder="Password" type="password">
+											<input id="new-pass" placeholder="**********" type="password">
 										</div>
 									</div>
 									<div class="control-group">
-										<label class="control-label registration-label" for="new-pass">Confirm Password</label>
+										<label class="control-label registration-label" for="new-pass">确认密码</label>
 
 										<div class="controls registration-controls">
-											<input id="conf-pass" placeholder="Password" type="password">
+											<input id="conf-pass" placeholder="**********" type="password">
 										</div>
 									</div>
 
 									<div class="control-group">
 										<div class="controls registration-controls">
 											<button id="update-password-button" type="submit" class="btn btn-primary">
-												Update
+												修改
 											</button>
 										</div>
 									</div>
