@@ -8,7 +8,6 @@
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
     <link href="css/main.css" rel="stylesheet" media="screen">
-    <link href="css/registration.css" rel="stylesheet" media="screen">
 </head>
 <body>
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -24,38 +23,34 @@
 </div>
 <div class="container">
     <div class="contentbox row">
-        <div class="registration row">
-            <div class="col-lg-offset-1 col-sm-10 col-md-10">
-                <div id="login_msg"></div>
-                <form class="form-horizontal" action="" onsubmit="return false;">
-                    <div class="form-group">
-                      <label class="control-label registration-label" for="reg-team">用户名</label>
-
-                            <div class="controls registration-controls">
-                                <input name="teamname" id="reg-team" placeholder="用户名" type="text" class="form-control">
-                            </div>
-                        </div>
-                    <div class="form-group">
-                        <label class="control-label registration-label" for="reg-pass">密码</label>
-
-                        <div class="controls registration-controls">
-                            <input name="password" id="reg-pass" placeholder="密码" type="password" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="controls registration-controls">
-                            <button id="login-button" type="submit" onclick="handle_login();" class="btn btn-primary">
-                                登录
-                            </button>
-                            <button id="forgot-button" onclick="handle_forgot_password_submit();" class="btn btn-primary">
-                                忘记密码
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+        <div class="row">
+          <h3 class="col-sm-offset-2 col-sm-10">登录</h3>
         </div>
+        <div id="login_msg"></div>
+        <form class="form-horizontal" action="" onsubmit="return false;">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="reg-team">用户名</label>
+                <div class="col-sm-10">
+                    <input name="teamname" id="reg-team" placeholder="用户名" type="text" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="reg-pass">密码</label>
+                <div class="col-sm-10">
+                    <input name="password" id="reg-pass" placeholder="密码" type="password" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button id="login-button" type="submit" onclick="handle_login();" class="btn btn-primary">
+                        登录
+                    </button>
+                    <button id="forgot-button" onclick="handle_forgot_password_submit();" class="btn btn-primary">
+                        忘记密码
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
     <div id="footer"></div>
 </div>

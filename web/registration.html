@@ -8,7 +8,6 @@
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
     <link href="css/main.css" rel="stylesheet" media="screen">
-    <link href="css/registration.css" rel="stylesheet" media="screen">
 </head>
 <body>
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -31,46 +30,40 @@
         </div>
     </div>
 
-    <div class="registration row">
-        <div class="col-lg-offset-1 col-sm-10 col-md-10">
-            <form class="form-horizontal">
-                <div class="form-group">
-                    <label class="control-label registration-label" for="reg-email">邮箱</label>
-
-                    <div class="controls registration-controls">
-                        <input id="reg-email" placeholder="邮箱" type="email" class="form-control">
-                    </div>
+    <div class="row">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="reg-email">邮箱</label>
+                <div class="col-sm-10">
+                    <input id="reg-email" placeholder="邮箱" type="email" class="form-control">
                 </div>
-                <div class="form-group">
-                    <label class="control-label registration-label" for="reg-team">用户名</label>
-
-                    <div class="controls registration-controls">
-                        <input id="reg-team" placeholder="用户名" type="text" class="form-control">
-                    </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="reg-team">用户名</label>
+                <div class="col-sm-10">
+                    <input id="reg-team" placeholder="用户名" type="text" class="form-control">
                 </div>
-                <div class="form-group">
-                    <label class="control-label registration-label" for="reg-aff">学校/单位</label>
-
-                    <div class="controls registration-controls">
-                        <input id="reg-aff" placeholder="学校/单位" type="text" class="form-control">
-                    </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="reg-aff">学校/单位</label>
+                <div class="col-sm-10">
+                    <input id="reg-aff" placeholder="学校/单位" type="text" class="form-control">
                 </div>
-                <div class="form-group">
-                    <label class="control-label registration-label" for="reg-pass">密码</label>
-
-                    <div class="controls registration-controls">
-                        <input id="reg-pass" placeholder="密码" type="password" class="form-control">
-                    </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="reg-pass">密码</label>
+                <div class="col-sm-10">
+                    <input id="reg-pass" placeholder="密码" type="password" class="form-control">
                 </div>
-                <div class="form-group">
-                    <div class="controls registration-controls">
-                        <button id="register-button" type="submit" class="btn btn-primary">
-                            注册
-                        </button>
-                    </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button id="register-button" type="submit" class="btn btn-primary">
+                        注册
+                    </button>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
     
     <div id="footer"></div>
