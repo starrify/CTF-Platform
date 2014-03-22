@@ -1,3 +1,6 @@
+#
+# -*- coding: utf-8 -*-
+
 __author__ = ["Collin Petty", "Peter Chapman"]
 __copyright__ = "Carnegie Mellon University"
 __license__ = "MIT"
@@ -21,21 +24,23 @@ def login(request, session):
     """
 
     if 'tid' in session:  # we assume that if there is a tid in the session dict then the user is authenticated
-        return {"success": 1, "message": "You are already logged in."}
+        return {"success": 1, "message": "你已经登录了."}
     teamname = request.form.get('teamname', None)  # get the teamname and password from the POSTed form
     password = request.form.get('password', None)
     if teamname is None or teamname == '':
-        return {'success': 0, 'message': "Team name cannot be empty."}
+        return {'success': 0, 'message': "用户名不能为空."}
     if password is None or password == '':  # No password submitted
-        return {"success": 0, "message": "Password cannot be empty."}
+        return {"success": 0, "message": "密码不能为空."}
     if len(teamname) > 250:
         return {"success": 0, "message": "STAHP!"}
     teamCurr = db.teams.find({'teamname': teamname})
     if teamCurr.count() == 0:  # No results returned from mongo when searching for the user
-        return {"success": 0, "message": "Team '%s' not found." % teamname}
+        return {"success": 0, "message": "未找到用户名'%s'." % teamname}
     if teamCurr.count() > 1:
-        return {"success": 0, "message": "An error occurred querying your account information."}
+        return {"success": 0, "message": "查找用户信息失败. 请联系管理员."}
     checkTeam = teamCurr[0]
+    if checkTeam['email_verified'] == 'false':
+        return {"success": 0, "message": "请先访问邮箱查收验证邮件."}
     pwhash = checkTeam['pwhash']  # The pw hash from the db
     if bcrypt.hashpw(password, pwhash) == pwhash:
         if checkTeam.get('debugaccount', None):
@@ -48,8 +53,8 @@ def login(request, session):
         else:  # SET THE 'tid' TO str('_id') FOR MIGRATION PURPOSES AND ADD THE 'tid' TO THE DOCUMENT
             session['tid'] = str(checkTeam['_id'])
             db.teams.update({'_id': checkTeam['_id']}, {'tid': str(checkTeam['_id'])})
-        return {"success": 1, "message": "Logged in as '%s'." % teamname}
-    return {"success": 0, "message": "Incorrect password."}
+        return {"success": 1, "message": "用户'%s'登录成功." % teamname}
+    return {"success": 0, "message": "密码错误."}
 
 
 def logout(session):
@@ -61,9 +66,9 @@ def logout(session):
 
     if 'tid' in session:
         session.clear()
-        return {"success": 1, "message": "Successfully logged out."}
+        return {"success": 1, "message": "注销成功."}
     else:
-        return {"success": 0, "message": "You do not appear to be logged in."}
+        return {"success": 0, "message": "你之前并未处于登录状态."}
 
 
 def is_logged_in(session):
@@ -73,9 +78,9 @@ def is_logged_in(session):
     If they are not logged in return a message saying so and success:0
     """
     if 'tid' in session:
-        return {'success': 1, 'message': 'You appear to be logged in.'}
+        return {'success': 1, 'message': '你处于登录状态.'}
     else:
-        return {"success": 0, "message": "You do not appear to be logged in."}
+        return {"success": 0, "message": "你并未处于登录状态."}
 
 
 def is_blacklisted(tid):

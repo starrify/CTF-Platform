@@ -8,8 +8,9 @@ __status__ = "Production"
 
 
 import logging
-from flask import Flask, request, session, abort
+from flask import Flask, request, session, abort, redirect
 from functools import wraps
+import json
 
 import account
 import auth
@@ -43,8 +44,6 @@ def deny_blacklisted(f):
 
 
 def return_json(f):
-    import json
-
     @wraps(f)
     def wrapper(*args, **kwds):
         return json.dumps(f(*args, **kwds))
@@ -123,6 +122,14 @@ def request_password_reset_hook():
 @return_json
 def reset_password_hook():
     return utilities.reset_password(request)
+
+
+@app.route('/api/verify', methods=['GET'])
+def verify_hook():
+    ret = utilities.verify_email(request, session)
+    if ret['status'] == 1:
+        return redirect('http://%s/account' %utilities.site_domain)
+    return json.dumps(ret)
 
 
 @app.route('/api/lookupteamname', methods=['POST'])
@@ -260,6 +267,10 @@ def initialize():
     from_name = config.get('email', 'from_name')
     common.log("Setting sender name to '%s'" % from_name, 'INFO')
     utilities.from_name = from_name
+
+    site_domain = config.get('misc', 'site_domain')
+    assert(site_domain)
+    utilities.site_domain = site_domain
 
     problem.root_web_path = config.get('autogen', 'root_web_path')
     problem.relative_auto_prob_path = config.get('autogen', 'relative_auto_prob_path')

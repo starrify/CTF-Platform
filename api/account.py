@@ -12,6 +12,7 @@ __status__ = "Production"
 from common import db
 import common
 import group
+import utilities
 
 import bcrypt
 
@@ -38,7 +39,7 @@ def register_team(request):
     #adviser = request.form.get('name', '')
     affiliation = request.form.get('aff', '')
     pwd = request.form.get('pass', '')
-    gname = request.form.get('group', '').lower().strip('')
+    #gname = request.form.get('group', '').lower().strip('')
     #joingroup = request.form.get('joingroup', '')
     joingroup = 'false'
 
@@ -54,8 +55,10 @@ def register_team(request):
                      'teamname': str(teamname),
                      'affiliation': str(affiliation),
                      'pwhash': bcrypt.hashpw(str(pwd), bcrypt.gensalt(8)),
+                     'email_verified': 'false',
                      'tid': tid})
-    return {'status': 1, 'message': "注册成功."}
+    utilities.prepare_verify_email(str(teamname), str(email))
+    return {'status': 1, 'message': "注册成功. 请访问邮箱查收验证邮件."}
 
 def update_password(tid, request):
     """Update account password.
