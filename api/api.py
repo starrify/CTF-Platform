@@ -192,11 +192,13 @@ def load_news_hook():
     return utilities.load_news()
 
 
+"""
 @app.route('/api/getsshacct', methods=['GET'])
 @return_json
 @require_login
 def get_ssh_account_hook():
     return account.get_ssh_account(session['tid'])
+"""
 
 
 @app.after_request
