@@ -69,18 +69,18 @@ def verify_email(request, session):
     """
     token = request.args.get('token', None).encode('utf8').encode('utf8')
     if token is None or token == '':
-        return {"status": 0, "message": u"验证信息不能为空."}
+        return {"status": 0, "message": "验证信息不能为空."}
 
     team = db.teams.find_one({'emailverifytoken': token})
     if team is None:
-        return {"status": 0, "message": u"验证信息无效."}
+        return {"status": 0, "message": "验证信息无效."}
     try:
         db.teams.update({'tid': team['tid']}, {'$set': {'email_verified': 'true'}})
         db.teams.update({'tid': team['tid']}, {'$unset': {'emailverifytoken': 1}})
     except:
-        return {"status": 0, "message": u"验证邮箱失败. 请联系管理员."}
+        return {"status": 0, "message": "验证邮箱失败. 请联系管理员."}
     session['tid'] = team['tid']
-    return {"status": 1, "message": u"邮箱已被验证成功."}
+    return {"status": 1, "message": "邮箱已被验证成功."}
 
 
 def prepare_verify_email(team_name, team_email):
