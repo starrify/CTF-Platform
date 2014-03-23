@@ -178,8 +178,8 @@ def submit_problem(tid, request):
     (an attempt is made). A relevant message is returned if the problem has already been solved or the answer
     has been tried.
     """
-    pid = request.form.get('pid', '').strip()
-    key = request.form.get('key', '').strip()
+    pid = request.form.get('pid', '').encode('utf8').strip()
+    key = request.form.get('key', '').encode('utf8').strip()
     correct = False
     if pid == '':
         return {"status": 0, "points": 0, "message": "Problem ID cannot be empty."}

@@ -1,3 +1,6 @@
+# 
+# -*- coding: utf-8 -*-
+
 __author__ = "Collin Petty"
 __copyright__ = "Carnegie Mellon University"
 __license__ = "MIT"
@@ -25,6 +28,7 @@ email_password = ''
 from_addr = ''
 from_name = ''
 
+site_domain = ''
 
 def send_email(recip, subject, body):
     """Send an email with the given body text and subject to the given recipient.
@@ -57,14 +61,57 @@ def send_email_to_list(recips, subject, body):
             send_email(recip, subject, body)
 
 
+def verify_email(request, session):
+    """Performs the email address verification.
+
+    Gets a token from the url parameters, if the token is found in a team object in the database
+    the new password is hashed and set, the token is then removed and an appropriate response is returned.
+    """
+    token = request.args.get('token', None).encode('utf8').encode('utf8')
+    if token is None or token == '':
+        return {"status": 0, "message": "验证信息不能为空."}
+
+    team = db.teams.find_one({'emailverifytoken': token})
+    if team is None:
+        return {"status": 0, "message": "验证信息无效."}
+    try:
+        db.teams.update({'tid': team['tid']}, {'$set': {'email_verified': 'true'}})
+        db.teams.update({'tid': team['tid']}, {'$unset': {'emailverifytoken': 1}})
+    except:
+        return {"status": 0, "message": "验证邮箱失败. 请联系管理员."}
+    session['tid'] = team['tid']
+    return {"status": 1, "message": "邮箱已被验证成功."}
+
+
+def prepare_verify_email(team_name, team_email):
+    """Prepares for verifying the email address with the team name.
+    
+    Generates a secure token and inserts it into the team's document as 'emailverifytoken'.
+    A link is emailed to the registered email address with the random token in the url.  The user can go to this
+    link to verify the email address.
+    """
+    team = db.teams.find_one({'teamname': team_name})
+    assert(team != None)
+    token = common.sec_token()
+    db.teams.update({'tid': team['tid']}, {'$set': {'emailverifytoken': token}})
+
+    msg_body = """
+    We recently received a request of registration for the following 'ACTF' account:\n\n  - %s\n\n
+    Our records show that this is the email address used to register the above account.  If you did not request to register with the above account then you need not take any further steps.  If you did request the registration please follow the link below to verify your email address. \n\n http://%s/api/verify?token=%s \n\n Best of luck! \n\n ~The 'ACTF' Team
+    """ % (team_name, site_domain, token)
+
+    send_email(team_email, "'ACTF' Email Verify", msg_body)
+    return
+
+
 def reset_password(request):
     """Perform the password update operation.
 
     Gets a token and new password from a submitted form, if the token is found in a team object in the database
     the new password is hashed and set, the token is then removed and an appropriate response is returned.
     """
-    token = str(request.form.get('token', None))
-    newpw = str(request.form.get('newpw', None))
+    token = request.form.get('token', None).encode('utf8')
+    newpw = request.form.get('newpw', None).encode('utf8')
     if token is None or token == '':
         return {"status": 0, "message": "Reset token cannot be emtpy."}
     if newpw is None or newpw == '':
@@ -90,7 +137,7 @@ def request_password_reset(request):
     link to submit a new password, if the token submitted with the new password matches the db token the password
     is hashed and updated in the db.
     """
-    teamname = request.form.get('teamname', None)
+    teamname = request.form.get('teamname', None).encode('utf8')
     if teamname is None or teamname == '':
         return {"success": 0, "message": "Teamname cannot be emtpy."}
     team = db.teams.find_one({'teamname': teamname})
@@ -101,11 +148,11 @@ def request_password_reset(request):
     db.teams.update({'tid': team['tid']}, {'$set': {'passrestoken': token}})
 
     msgBody = """
-    We recently received a request to reset the password for the following 'CTF Platform' account:\n\n  - %s\n\n
-    Our records show that this is the email address used to register the above account.  If you did not request to reset the password for the above account then you need not take any further steps.  If you did request the password reset please follow the link below to set your new password. \n\n https://example.com/passreset#%s \n\n Best of luck! \n\n ~The 'CTF Platform' Team
-    """ % (teamname, token)
+    We recently received a request to reset the password for the following 'ACTF' account:\n\n  - %s\n\n
+    Our records show that this is the email address used to register the above account.  If you did not request to reset the password for the above account then you need not take any further steps.  If you did request the password reset please follow the link below to set your new password. \n\n http://%s/passreset#%s \n\n Best of luck! \n\n ~The 'ACTF' Team
+    """ % (teamname, site_domain, token)
 
-    send_email(teamEmail, "'CTF Platform' Password Reset", msgBody)
+    send_email(teamEmail, "'ACTF' Password Reset", msgBody)
     return {"success": 1, "message": "A password reset link has been sent to the email address provided during registration."}
 
 
@@ -120,7 +167,7 @@ def lookup_team_names(email):
     teams = list(db.teams.find({'email': {'$regex': email, '$options': '-i'}}))
     if len(teams) == 0:
         return {"status": 0, "message": "No teams found with that email address, please register!"}
-    tnames = [str(t['teamname']) for t in teams]
+    tnames = [t['teamname'] for t in teams]
     msgBody = """Hello!
 
     We recently received a request to lookup the team names associated with your email address.  If you did not request this information then please disregard this email.
@@ -148,7 +195,7 @@ def load_news():
     news = cache.get('news')
     if news is not None:
         return json.loads(news)
-    news = sorted([{'date': str(n['date']) if 'date' in n else "2000-01-01",
+    news = sorted([{'date': n['date'] if 'date' in n else "2000-01-01",
                     'header': n['header'] if 'header' in n else None,
                     'articlehtml': n['articlehtml' if 'articlehtml' in n else None]}
                    for n in list(db.news.find())], key=lambda k: k['date'], reverse=True)

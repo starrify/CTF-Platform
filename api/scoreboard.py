@@ -94,4 +94,4 @@ def load_group_scoreboard(group):
           'affiliation': esc(t['affiliation']),
           'score': load_team_score(t['tid'])}
          for t in teams], key=lambda k: k['score'], reverse=True) if x['score'] > 0]
-    cache.set('groupscoreboard_' + str(group['name']), json.dumps({'group': group['name'], 'scores': top_scores}), 60 * 30)
+    cache.set('groupscoreboard_' + group['name'], json.dumps({'group': group['name'], 'scores': top_scores}), 60 * 30)
