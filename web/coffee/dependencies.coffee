@@ -162,6 +162,10 @@ window.tabsLI = [
     "排名"
   ]
   [
+    "problems"
+    "题目"
+  ]
+  [
     "news"
     "公告"
   ]
