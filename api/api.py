@@ -135,21 +135,22 @@ def verify_hook():
 @app.route('/api/lookupteamname', methods=['POST'])
 @return_json
 def lookup_team_names_hook():
-    return utilities.lookup_team_names(request.form.get('email', ''))
+    return utilities.lookup_team_names(request.form.get('email', '').encode('utf8'))
 
 
+"""
 @app.route('/api/creategroup', methods=['POST'])
 @require_login
 @return_json
 def create_group_hook():
-    return group.create_group(session['tid'], request.form.get('name', ''))
+    return group.create_group(session['tid'], request.form.get('name', '').encode('utf8'))
 
 
 @app.route('/api/joingroup', methods=['POST'])
 @require_login
 @return_json
 def join_group_hook():
-    gname = request.form.get('name', '')
+    gname = request.form.get('name', '').encode('utf8')
     return group.join_group(session['tid'], gname)
 
 
@@ -164,8 +165,9 @@ def get_group_membership_hook():
 @require_login
 @return_json
 def leave_group_hook():
-    gid = request.form.get('gid', '')
+    gid = request.form.get('gid', '').encode('utf8')
     return group.leave_group(session['tid'], gid)
+"""
 
 
 @app.route('/api/score', methods=['GET'])
@@ -268,7 +270,7 @@ def initialize():
     common.log("Setting sender name to '%s'" % from_name, 'INFO')
     utilities.from_name = from_name
 
-    site_domain = config.get('misc', 'site_domain')
+    site_domain = config.get('misc', 'site_domain').encode('utf8')
     assert(site_domain)
     utilities.site_domain = site_domain
 

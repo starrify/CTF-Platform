@@ -67,7 +67,7 @@ def verify_email(request, session):
     Gets a token from the url parameters, if the token is found in a team object in the database
     the new password is hashed and set, the token is then removed and an appropriate response is returned.
     """
-    token = str(request.args.get('token', None))
+    token = request.args.get('token', None).encode('utf8').encode('utf8')
     if token is None or token == '':
         return {"status": 0, "message": u"验证信息不能为空."}
 
@@ -95,7 +95,7 @@ def prepare_verify_email(team_name, team_email):
     token = common.sec_token()
     db.teams.update({'tid': team['tid']}, {'$set': {'emailverifytoken': token}})
 
-    msg_body = u"""
+    msg_body = """
     We recently received a request of registration for the following 'ACTF' account:\n\n  - %s\n\n
     Our records show that this is the email address used to register the above account.  If you did not request to register with the above account then you need not take any further steps.  If you did request the registration please follow the link below to verify your email address. \n\n http://%s/api/verify?token=%s \n\n Best of luck! \n\n ~The 'ACTF' Team
     """ % (team_name, site_domain, token)
@@ -110,8 +110,8 @@ def reset_password(request):
     Gets a token and new password from a submitted form, if the token is found in a team object in the database
     the new password is hashed and set, the token is then removed and an appropriate response is returned.
     """
-    token = str(request.form.get('token', None))
-    newpw = str(request.form.get('newpw', None))
+    token = request.form.get('token', None).encode('utf8')
+    newpw = request.form.get('newpw', None).encode('utf8')
     if token is None or token == '':
         return {"status": 0, "message": "Reset token cannot be emtpy."}
     if newpw is None or newpw == '':
@@ -137,7 +137,7 @@ def request_password_reset(request):
     link to submit a new password, if the token submitted with the new password matches the db token the password
     is hashed and updated in the db.
     """
-    teamname = request.form.get('teamname', None)
+    teamname = request.form.get('teamname', None).encode('utf8')
     if teamname is None or teamname == '':
         return {"success": 0, "message": "Teamname cannot be emtpy."}
     team = db.teams.find_one({'teamname': teamname})
@@ -167,7 +167,7 @@ def lookup_team_names(email):
     teams = list(db.teams.find({'email': {'$regex': email, '$options': '-i'}}))
     if len(teams) == 0:
         return {"status": 0, "message": "No teams found with that email address, please register!"}
-    tnames = [str(t['teamname']) for t in teams]
+    tnames = [t['teamname'] for t in teams]
     msgBody = """Hello!
 
     We recently received a request to lookup the team names associated with your email address.  If you did not request this information then please disregard this email.
@@ -195,7 +195,7 @@ def load_news():
     news = cache.get('news')
     if news is not None:
         return json.loads(news)
-    news = sorted([{'date': str(n['date']) if 'date' in n else "2000-01-01",
+    news = sorted([{'date': n['date'] if 'date' in n else "2000-01-01",
                     'header': n['header'] if 'header' in n else None,
                     'articlehtml': n['articlehtml' if 'articlehtml' in n else None]}
                    for n in list(db.news.find())], key=lambda k: k['date'], reverse=True)

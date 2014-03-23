@@ -34,13 +34,13 @@ def register_team(request):
     If 'joingroup' is not set/false but 'group' exists then we create the new group and add the user as an owner/member,
     we already know that the group does not exist (would have been caught at the beginning).
     """
-    email = request.form.get('email', '')
-    teamname = request.form.get('team', '')
-    #adviser = request.form.get('name', '')
-    affiliation = request.form.get('aff', '')
-    pwd = request.form.get('pass', '')
-    #gname = request.form.get('group', '').lower().strip('')
-    #joingroup = request.form.get('joingroup', '')
+    email = request.form.get('email', '').encode('utf8')
+    teamname = request.form.get('team', '').encode('utf8')
+    #adviser = request.form.get('name', '').encode('utf8')
+    affiliation = request.form.get('aff', '').encode('utf8')
+    pwd = request.form.get('pass', '').encode('utf8')
+    #gname = request.form.get('group', '').lower().strip('').encode('utf8')
+    #joingroup = request.form.get('joingroup', '').encode('utf8')
     joingroup = 'false'
 
     if '' in {email, teamname, affiliation, pwd}:
@@ -51,13 +51,13 @@ def register_team(request):
     #    return {'status': 0, 'message': u"邮箱已经被使用."}
 
     tid = common.token()
-    db.teams.insert({'email': str(email),
-                     'teamname': str(teamname),
-                     'affiliation': str(affiliation),
-                     'pwhash': bcrypt.hashpw(str(pwd), bcrypt.gensalt(8)),
+    db.teams.insert({'email': email,
+                     'teamname': teamname,
+                     'affiliation': affiliation,
+                     'pwhash': bcrypt.hashpw(pwd, bcrypt.gensalt(8)),
                      'email_verified': 'false',
                      'tid': tid})
-    utilities.prepare_verify_email(str(teamname), str(email))
+    utilities.prepare_verify_email(teamname, email)
     return {'status': 1, 'message': u"注册成功. 请访问邮箱查收验证邮件."}
 
 def update_password(tid, request):
@@ -67,8 +67,8 @@ def update_password(tid, request):
     not empty and 2) the new pw and the conf pw are the same. We salt/hash the password and update the team object
     in mongo then return a status:1 with a success message.
     """
-    pwd = request.form.get('pwd', '')
-    conf = request.form.get('conf', '')
+    pwd = request.form.get('pwd', '').encode('utf8')
+    conf = request.form.get('conf', '').encode('utf8')
     if pwd == '':
         return {'status': 0, 'message': u"新密码不能为空."}
     if pwd != conf:

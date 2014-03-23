@@ -25,8 +25,8 @@ def login(request, session):
 
     if 'tid' in session:  # we assume that if there is a tid in the session dict then the user is authenticated
         return {"success": 1, "message": u"你已经登录了."}
-    teamname = request.form.get('teamname', None)  # get the teamname and password from the POSTed form
-    password = request.form.get('password', None)
+    teamname = request.form.get('teamname', None).encode('utf8')  # get the teamname and password from the POSTed form
+    password = request.form.get('password', None).encode('utf8')
     if teamname is None or teamname == '':
         return {'success': 0, 'message': u"用户名不能为空."}
     if password is None or password == '':  # No password submitted
@@ -51,8 +51,8 @@ def login(request, session):
         if checkTeam['tid'] is not None:
             session['tid'] = checkTeam['tid']
         else:  # SET THE 'tid' TO str('_id') FOR MIGRATION PURPOSES AND ADD THE 'tid' TO THE DOCUMENT
-            session['tid'] = str(checkTeam['_id'])
-            db.teams.update({'_id': checkTeam['_id']}, {'tid': str(checkTeam['_id'])})
+            session['tid'] = checkTeam['_id']
+            db.teams.update({'_id': checkTeam['_id']}, {'tid': checkTeam['_id']})
         return {"success": 1, "message": u"用户'%s'登录成功." % teamname}
     return {"success": 0, "message": u"密码错误."}
 
