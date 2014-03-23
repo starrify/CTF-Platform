@@ -46,7 +46,7 @@ def deny_blacklisted(f):
 def return_json(f):
     @wraps(f)
     def wrapper(*args, **kwds):
-        return json.dumps(f(*args, **kwds))
+        return json.dumps(f(*args, **kwds, encoding='utf8')
     return wrapper
 
 

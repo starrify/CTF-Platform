@@ -44,11 +44,11 @@ def register_team(request):
     joingroup = 'false'
 
     if '' in {email, teamname, affiliation, pwd}:
-        return {'status': 0, 'message': "请填写必须的信息."}
+        return {'status': 0, 'message': u"请填写必须的信息."}
     if db.teams.find({'teamname': teamname}).count() != 0:
-        return {'status': 0, 'message': "用户名已经被使用."}
+        return {'status': 0, 'message': u"用户名已经被使用."}
     #if db.teams.find({'email': email}).count() != 0:
-    #    return {'status': 0, 'message': "邮箱已经被使用."}
+    #    return {'status': 0, 'message': u"邮箱已经被使用."}
 
     tid = common.token()
     db.teams.insert({'email': str(email),
@@ -58,7 +58,7 @@ def register_team(request):
                      'email_verified': 'false',
                      'tid': tid})
     utilities.prepare_verify_email(str(teamname), str(email))
-    return {'status': 1, 'message': "注册成功. 请访问邮箱查收验证邮件."}
+    return {'status': 1, 'message': u"注册成功. 请访问邮箱查收验证邮件."}
 
 def update_password(tid, request):
     """Update account password.
@@ -70,11 +70,11 @@ def update_password(tid, request):
     pwd = request.form.get('pwd', '')
     conf = request.form.get('conf', '')
     if pwd == '':
-        return {'status': 0, 'message': "新密码不能为空."}
+        return {'status': 0, 'message': u"新密码不能为空."}
     if pwd != conf:
-        return {'status': 0, 'message': "两次密码并不相同."}
+        return {'status': 0, 'message': u"两次密码并不相同."}
     db.teams.update({'tid': tid}, {'$set': {'pwhash': bcrypt.hashpw(pwd, bcrypt.gensalt(8))}})
-    return {'status': 1, 'message': "密码修改成功."}
+    return {'status': 1, 'message': u"密码修改成功."}
 
 
 #def get_ssh_account(tid):

@@ -69,18 +69,18 @@ def verify_email(request, session):
     """
     token = str(request.args.get('token', None))
     if token is None or token == '':
-        return {"status": 0, "message": "验证信息不能为空."}
+        return {"status": 0, "message": u"验证信息不能为空."}
 
     team = db.teams.find_one({'emailverifytoken': token})
     if team is None:
-        return {"status": 0, "message": "验证信息无效."}
+        return {"status": 0, "message": u"验证信息无效."}
     try:
         db.teams.update({'tid': team['tid']}, {'$set': {'email_verified': 'true'}})
         db.teams.update({'tid': team['tid']}, {'$unset': {'emailverifytoken': 1}})
     except:
-        return {"status": 0, "message": "验证邮箱失败. 请联系管理员."}
+        return {"status": 0, "message": u"验证邮箱失败. 请联系管理员."}
     session['tid'] = team['tid']
-    return {"status": 1, "message": "邮箱已被验证成功."}
+    return {"status": 1, "message": u"邮箱已被验证成功."}
 
 
 def prepare_verify_email(team_name, team_email):
@@ -95,7 +95,7 @@ def prepare_verify_email(team_name, team_email):
     token = common.sec_token()
     db.teams.update({'tid': team['tid']}, {'$set': {'emailverifytoken': token}})
 
-    msg_body = """
+    msg_body = u"""
     We recently received a request of registration for the following 'ACTF' account:\n\n  - %s\n\n
     Our records show that this is the email address used to register the above account.  If you did not request to register with the above account then you need not take any further steps.  If you did request the registration please follow the link below to verify your email address. \n\n http://%s/api/verify?token=%s \n\n Best of luck! \n\n ~The 'ACTF' Team
     """ % (team_name, site_domain, token)
