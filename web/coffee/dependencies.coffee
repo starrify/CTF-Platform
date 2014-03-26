@@ -166,10 +166,6 @@ window.tabsLI = [
     "题目"
   ]
   [
-    "news"
-    "公告"
-  ]
-  [
     "rules"
     "规则"
   ]
@@ -185,16 +181,8 @@ window.tabsLI = [
 
 window.tabsNLI = [
   [
-    "about"
-    "关于"
-  ]
-  [
     "rules"
     "规则"
-  ]
-  [
-    "news"
-    "公告"
   ]
   [
     "registration"
@@ -208,16 +196,8 @@ window.tabsNLI = [
 
 window.tabsFail = [
   [
-    "about"
-    "关于"
-  ]
-  [
     "rules"
     "规则"
-  ]
-  [
-    "news"
-    "公告"
   ]
   [
     "registration"

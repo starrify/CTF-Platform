@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!doctype html>
+<html><head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <meta name="description" content="ACTF Platform">
-    <meta name="author" content="Plaid Parliament of Pwning">
-    <title>安恒杯 第一届浙江大学信息安全技术挑战赛平台</title>
-    <link href='//fonts.googleapis.com/css?family=Press+Start+2P' rel='stylesheet' type='text/css'>
+    <meta name="description" content="ACTF">
+    <title>ACTF|公告</title>
     <link href="css/jquery.ambiance.css" rel="stylesheet" media="screen">
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="css/main.css" rel="stylesheet" media="screen">
@@ -30,19 +27,25 @@
     </div>
 </div>
 <div class="container">
-    <div class="presentbox row-fluid" >
-      <p>网站开放欢迎注册，规则to be done</p>
+    <h3>公告</h3>
+    <div class="contentbox row">
+        <div class="col-lg-offset-1 col-sm-10 col-md-10">
+            <div id="news_holder"></div>
+        </div>
     </div>
     <div id="footer"></div>
 </div>
+
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<script src="js/news.js"></script>
 <script src="js/dependencies.js"></script>
 <script>
     $(function () {
         display_navbar();
+        load_news();
         load_footer();
     })
 </script>
-</body>
-</html>
+
+</body></html>
