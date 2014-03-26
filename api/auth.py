@@ -50,6 +50,8 @@ def login(request, session):
                 return {'success': 2, "message": "Correct credentials! But the game has not started yet..."}
         if checkTeam['tid'] is not None:
             session['tid'] = checkTeam['tid']
+            session['teamname'] = checkTeam['teamname']
+            session['is_zju_user'] = utilities.is_zju_email(checkTeam['email'])
         else:  # SET THE 'tid' TO str('_id') FOR MIGRATION PURPOSES AND ADD THE 'tid' TO THE DOCUMENT
             session['tid'] = checkTeam['_id']
             db.teams.update({'_id': checkTeam['_id']}, {'tid': checkTeam['_id']})
@@ -78,7 +80,8 @@ def is_logged_in(session):
     If they are not logged in return a message saying so and success:0
     """
     if 'tid' in session:
-        return {'success': 1, 'message': '你处于登录状态.'}
+        return {'success': 1, 'message': '你处于登录状态.', 
+            'teamname': session['teamname'], 'is_zju_user': session['is_zju_user']}
     else:
         return {"success": 0, "message": "你并未处于登录状态."}
 

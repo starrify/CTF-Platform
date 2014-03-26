@@ -2,10 +2,20 @@ window.show_site_down_error = ->
   $(".contentbox").html "<div class=\"row-fluid\"><div class=\"offset1 span10\"><div class=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>发生了未知错误. 请联系<a href=\"mailto:actf.zju@gmail.com\">actf.zju@gmail.com</a></div></div></div>"
   return
 
+window.is_zju_text = {'true': '（校内用户）', 'false': '（校外用户）'}
+
 window.build_navbar = (tabs) ->
   ohtml = ""
-  i = 0
 
+  if arguments.length == 3
+    # logged in
+    i = 0
+    while i < tabs.length
+      if tabs[i][0] == 'account'
+        tabs[i][1] = arguments[1] + is_zju_text[arguments[2]]
+      i++
+
+  i = 0
   while i < tabs.length
     unless window.location.href.indexOf(tabs[i][0]) is -1
       ohtml += "<li class=\"ts_selected\" id=\"ts_" + tabs[i][0] + "\"><a href=\"" + tabs[i][0] + "\">" + tabs[i][1] + "</a></li>"
@@ -75,7 +85,7 @@ window.display_navbar = ->
     ).done((data) ->
       if data["success"] is 1 and sessionStorage.signInStatus isnt "loggedIn"
         sessionStorage.signInStatus = "loggedIn"
-        build_navbar tabsLI
+        build_navbar tabsLI data['teamname'] data['is_zju_user']
         # check_certs_link_necessary()
       else if data["success"] is 0 and sessionStorage.signInStatus isnt "notLoggedIn"
         sessionStorage.signInStatus = "notLoggedIn"

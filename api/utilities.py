@@ -30,6 +30,15 @@ from_name = ''
 
 site_domain = ''
 
+def is_zju_email(email):
+    zju_email = [
+        '@zju.edu.cn',
+        '@st.zju.edu.cn',
+        '@gstu.zju.edu.cn',
+        '@fa.zju.edu.cn',
+    ]
+    return any([email.endswith(suffix) for suffix in zju_email])
+
 def send_email(recip, subject, body):
     """Send an email with the given body text and subject to the given recipient.
 
