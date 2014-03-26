@@ -6,7 +6,6 @@
     <title>ACTF|注册</title>
     <link href="css/jquery.ambiance.css" rel="stylesheet" media="screen">
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
     <link href="css/main.css" rel="stylesheet" media="screen">
 </head>
 <body>
@@ -29,10 +28,8 @@
 </div>
 <div class="container">
     <div class="contentbox row">
-        <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
-            <p class="lead">
-                安恒杯 第一届浙江大学信息安全技术挑战赛已<strong>开放注册</strong>.
-            </p>
+        <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3">
+            <h4>安恒杯第一届浙江大学信息安全技术挑战赛已<strong>开放注册</strong></h4>
         </div>
     </div>
 
@@ -43,7 +40,12 @@
                     <label class="col-sm-3 control-label" for="reg-email">邮箱</label>
                     <div class="col-sm-9">
                         <input id="reg-email" placeholder="邮箱" type="email" class="form-control">
+                        <span class="label label-info pull-right">
+                            本次比赛将对校内与校外用户分别排名.<br>
+                            来自浙江大学的用户请使用校内邮箱注册.
+                        </span>
                     </div>
+
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="reg-team">用户名</label>
@@ -64,7 +66,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
+                    <div class="col-sm-offset-3 col-sm-9">
                         <button id="register-button" type="submit" class="btn btn-primary">
                             注册
                         </button>
