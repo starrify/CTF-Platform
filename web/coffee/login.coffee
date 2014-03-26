@@ -13,6 +13,8 @@ window.handle_login = ->
     else if data['success'] == 1
       if (typeof(Storage) != "undefined")
         sessionStorage.signInStatus = "loggedIn";
+        sessionStorage.teamname = data['teamname'];
+        sessionStorage.is_zju_user = data['is_zju_user'];
       document.location.href = "problems";
 
 window.handle_forgot_password_submit = ->
