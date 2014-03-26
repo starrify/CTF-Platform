@@ -167,6 +167,7 @@ window.redirect_if_not_logged_in = ->
   return
 
 window.tabsLI = [
+  ###
   [
     "scoreboard"
     "排名"
@@ -175,6 +176,7 @@ window.tabsLI = [
     "problems"
     "题目"
   ]
+  ###
   [
     "rules"
     "规则"

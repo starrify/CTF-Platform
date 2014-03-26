@@ -13,7 +13,8 @@ window.handle_login = ->
     else if data['success'] == 1
       if (typeof(Storage) != "undefined")
         sessionStorage.signInStatus = "loggedIn";
-      document.location.href = "problems";
+      #document.location.href = "problems";
+      document.location.href = ".";
 
 window.handle_forgot_password_submit = ->
   $.ajax(type: "POST", cache: false, url: "/api/requestpasswordreset", dataType: "json", data: {'teamname': $("#reg-team").val()})
