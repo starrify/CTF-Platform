@@ -14,6 +14,8 @@ import bcrypt
 from common import db
 debug_disable_general_login = False
 
+import utilities
+
 
 def login(request, session):
     """Authenticates a user.
