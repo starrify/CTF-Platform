@@ -57,7 +57,8 @@ def login(request, session):
         else:  # SET THE 'tid' TO str('_id') FOR MIGRATION PURPOSES AND ADD THE 'tid' TO THE DOCUMENT
             session['tid'] = checkTeam['_id']
             db.teams.update({'_id': checkTeam['_id']}, {'tid': checkTeam['_id']})
-        return {"success": 1, "message": "用户'%s'登录成功." % teamname}
+        return {"success": 1, "message": "用户'%s'登录成功." % teamname,
+            'teamname': session['teamname'], 'is_zju_user': session['is_zju_user']}
     return {"success": 0, "message": "密码错误."}
 
 
