@@ -85,7 +85,7 @@ window.display_navbar = ->
     ).done((data) ->
       if data["success"] is 1 and sessionStorage.signInStatus isnt "loggedIn"
         sessionStorage.signInStatus = "loggedIn"
-        build_navbar tabsLI data['teamname'] data['is_zju_user']
+        build_navbar tabsLI, data['teamname'], data['is_zju_user']
         # check_certs_link_necessary()
       else if data["success"] is 0 and sessionStorage.signInStatus isnt "notLoggedIn"
         sessionStorage.signInStatus = "notLoggedIn"
