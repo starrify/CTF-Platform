@@ -34,12 +34,13 @@
     text-align: right;
 }
  
-.cbp_tmtimeline > li .cbp_tmtime span:first-child {
-    font-size: 2.9em;
+.cbp_tmtimeline > li .cbp_tmtime span:second-child {
+    font-size: 1.2em;
     color: #3594cb;
 }
  
-.cbp_tmtimeline > li .cbp_tmtime span:second-child {
+.cbp_tmtimeline > li .cbp_tmtime span:first-child,
+.cbp_tmtimeline > li .cbp_tmtime span:third-child {
     font-size: 0.9em;
     color: #bdd0db;
 }
