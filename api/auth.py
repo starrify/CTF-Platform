@@ -56,6 +56,8 @@ def login(request, session):
             session['is_zju_user'] = utilities.is_zju_email(checkTeam['email'])
         else:  # SET THE 'tid' TO str('_id') FOR MIGRATION PURPOSES AND ADD THE 'tid' TO THE DOCUMENT
             session['tid'] = checkTeam['_id']
+            session['teamname'] = checkTeam['teamname']
+            session['is_zju_user'] = utilities.is_zju_email(checkTeam['email'])
             db.teams.update({'_id': checkTeam['_id']}, {'tid': checkTeam['_id']})
         return {"success": 1, "message": "用户'%s'登录成功." % teamname,
             'teamname': session['teamname'], 'is_zju_user': session['is_zju_user']}
