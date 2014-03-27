@@ -88,9 +88,9 @@ def verify_email(request, session):
         db.teams.update({'tid': team['tid']}, {'$unset': {'emailverifytoken': 1}})
     except:
         return {"status": 0, "message": "验证邮箱失败. 请联系管理员."}
-    #session['tid'] = team['tid']
-    #session['teamname'] = team['teamname']
-    #session['is_zju_user'] = utilities.is_zju_email(team['email'])
+    session['tid'] = team['tid']
+    session['teamname'] = team['teamname']
+    session['is_zju_user'] = is_zju_email(team['email'])
     return {"status": 1, "message": "邮箱已被验证成功."}
 
 
