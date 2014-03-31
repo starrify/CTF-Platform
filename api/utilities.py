@@ -134,6 +134,7 @@ def reset_password(request):
     try:
         db.teams.update({'tid': team['tid']}, {'$set': {'pwhash': bcrypt.hashpw(newpw, bcrypt.gensalt(8))}})
         db.teams.update({'tid': team['tid']}, {'$unset': {'passrestoken': 1}})
+        db.teams.update({'tid': team['tid']}, {'$set': {'email_verified': 'true'}})
     except:
         return {"status": 0, "message": "There was an error updating your password."}
     return {"status": 1, "message": "Your password has been reset."}
