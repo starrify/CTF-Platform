@@ -124,20 +124,20 @@ def reset_password(request):
     token = request.form.get('token', None).encode('utf8')
     newpw = request.form.get('newpw', None).encode('utf8')
     if token is None or token == '':
-        return {"status": 0, "message": "Reset token cannot be emtpy."}
+        return {"status": 0, "message": "密码重设密钥不能为空."}
     if newpw is None or newpw == '':
-        return {"status": 0, "message": "New password cannot be empty."}
+        return {"status": 0, "message": "新密码不能为空."}
 
     team = db.teams.find_one({'passrestoken': token})
     if team is None:
-        return {"status": 0, "message": "Password reset token is not valid."}
+        return {"status": 0, "message": "密码重设密钥无效."}
     try:
         db.teams.update({'tid': team['tid']}, {'$set': {'pwhash': bcrypt.hashpw(newpw, bcrypt.gensalt(8))}})
         db.teams.update({'tid': team['tid']}, {'$unset': {'passrestoken': 1}})
         db.teams.update({'tid': team['tid']}, {'$set': {'email_verified': 'true'}})
     except:
-        return {"status": 0, "message": "There was an error updating your password."}
-    return {"status": 1, "message": "Your password has been reset."}
+        return {"status": 0, "message": "重设密码出现错误. 请重试或联系管理员."}
+    return {"status": 1, "message": "密码已被重设."}
 
 
 def request_password_reset(request):
@@ -151,10 +151,10 @@ def request_password_reset(request):
     """
     teamname = request.form.get('teamname', None).encode('utf8')
     if teamname is None or teamname == '':
-        return {"success": 0, "message": "Teamname cannot be emtpy."}
+        return {"success": 0, "message": "用户名不能为空."}
     team = db.teams.find_one({'teamname': teamname})
     if team is None:
-        return {"success": 0, "message": "No registration found for '%s'." % teamname}
+        return {"success": 0, "message": "未找到用户'%s'." % teamname}
     teamEmail = team['email']
     token = common.sec_token()
     db.teams.update({'tid': team['tid']}, {'$set': {'passrestoken': token}})
@@ -165,7 +165,7 @@ def request_password_reset(request):
     """ % (teamname, site_domain, token)
 
     send_email(teamEmail, "'ACTF' Password Reset", msgBody)
-    return {"success": 1, "message": "A password reset link has been sent to the email address provided during registration."}
+    return {"success": 1, "message": "一封用于发送重设密码链接的邮件已被发送."}
 
 
 def lookup_team_names(email):
