@@ -165,7 +165,7 @@ def request_password_reset(request):
     """ % (teamname, site_domain, token)
 
     send_email(teamEmail, "'ACTF' Password Reset", msgBody)
-    return {"success": 1, "message": "一封用于发送重设密码链接的邮件已被发送."}
+    return {"success": 1, "message": "密码重设邮件已被发送. 请注意查收."}
 
 
 def lookup_team_names(email):
