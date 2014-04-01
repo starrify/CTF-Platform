@@ -126,8 +126,8 @@ def load_problems():
                                  'basescore':      p.get('basescore', None),
                                  #'correct':        True if p['pid'] in correctPIDs else False,
                                  'desc':           p.get('desc') })
-        problems.sort(key=lambda k: k['basescore'] if 'basescore' in k else 99999)
-        cache.set('problems' + tid, json.dumps(problems), 60 * 60)
+        problems.sort(key=lambda k: (k['basescore'] if 'basescore' in k else 99999, k['pid']))
+        cache.set('problems', json.dumps(problems), 60 * 60)
     else:
         problems = json.loads(problems)
     return problems
@@ -201,7 +201,7 @@ def get_solved_problems(tid):
 
     solved = cache.get('solved_' + tid)
     if solved is None:
-        solved = list({d['pid'] for d in list(db.submissions.find({"tid": tid, "correct": True}))})
+        solved = list((p['pid'] for p in db.submissions.find({"tid": tid, "correct": True}, {"pid": 1})))
         cache.set('solved_' + tid, json.dumps(solved), 60 * 60)
     else:
         solved = json.loads(solved)
@@ -255,7 +255,7 @@ def submit_problem(tid, request):
         message = prob.get('correct_msg', '回答正确!') if correct else prob.get('wrong_msg', '回答错误!')
 
     submission = {'tid': tid,
-                  'timestamp': datetime.now(),
+                  'timestamp': datetime.utcnow(),
                   'pid': pid,
                   'ip': request.headers.get('X-Real-IP', None),
                   'key': key,

@@ -171,7 +171,6 @@ def get_group_membership_hook():
 def leave_group_hook():
     gid = request.form.get('gid', '').encode('utf8')
     return group.leave_group(session['tid'], gid)
-"""
 
 
 @app.route('/api/score', methods=['GET'])
@@ -179,17 +178,14 @@ def leave_group_hook():
 @return_json
 def load_team_score_hook():
     return {'score': scoreboard.load_team_score(session['tid'])}
+"""
 
 
 @app.route('/api/scoreboards', methods=['GET'])
+@require_login
 @return_json
 def get_scoreboards_hook():
-    """Loads the public scoreboard if the user is not logged in
-    otherwise retrieves the group scoreboards as well"""
-    scoreboards = [scoreboard.get_public_scoreboard()]
-    if 'tid' in session:
-        scoreboards += scoreboard.get_group_scoreboards(session['tid'])
-    return scoreboards
+    return scoreboard.get_public_scoreboard()
 
 
 @app.route('/api/submit', methods=['POST'])

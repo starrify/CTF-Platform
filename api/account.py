@@ -10,6 +10,7 @@ __email__ = ["collin@cmu.edu", "peter@cmu.edu"]
 __status__ = "Production"
 
 from common import db
+from common import cache
 import common
 import group
 import utilities

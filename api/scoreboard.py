@@ -17,7 +17,10 @@ from common import db
 from common import cache
 from common import esc
 
-end = datetime(2020, 5, 7, 3, 59, 59)
+import problem
+import utilities
+
+ctf_start = datetime.utcfromtimestamp(1396656000)
 
 
 def get_group_scoreboards(tid):
@@ -42,7 +45,24 @@ def get_public_scoreboard():
     Kind of a hack, tells the front end to look for a static page scoreboard rather than sending a 2000+ length
     array that the front end must parse.
     """
-    return {'path': '/staticscoreboard.html', 'group': 'Public'}
+    scoreboard = cache.get('scoreboard')
+    if scoreboard is None:
+        scoreboard = dict()
+        problems = problem.load_problems()
+        problems = [p['pid'] for p in problems]
+        scoreboard['problems'] = problems
+        verified_teams = utilities.get_verified_teams()
+        team_scores = [{
+            "teamname": t['teamname'], 
+            "score": load_team_score(t['tid']),
+            "solved": problem.get_solved_problems(t['tid'])
+        }   for t in verified_teams]
+        team_scores.sort(key=lambda x: (-x['score']['score'], 'penalty here'))
+        scoreboard['teamscores'] = team_scores
+        cache.set('scoreboard', json.dumps(scoreboard), 60 * 60)
+    else:
+        scoreboard = json.loads(scoreboard)
+    return scoreboard
 
 
 def load_team_score(tid):
@@ -52,12 +72,19 @@ def load_team_score(tid):
     basescores if they exist. Cache the result.
     """
     score = cache.get('teamscore_' + tid)
-    if score is not None:
-        return score
-    s = {d['pid'] for d in list(db.submissions.find({"tid": tid, "correct": True}))}  # ,#"timestamp": {"$lt": end}}))}
-    score = sum([d['basescore'] if 'basescore' in d else 0 for d in list(db.problems.find({
-        'pid': {"$in": list(s)}}))])
-    cache.set('teamscore_' + tid, score, 60 * 60)
+    if score is None:
+        problems = problem.load_problems()
+        pscore = {p['pid']: p['basescore'] for p in problems}
+        solved = problem.get_solved_problems(tid)
+        score = dict()
+        score['score'] = sum(pscore[pid] for pid in solved)
+        # TODO: calculate time penalty
+        #s = {d['pid'] for d in list(db.submissions.find({"tid": tid, "correct": True}))}  # ,#"timestamp": {"$lt": end}}))}
+        #score = sum([d['basescore'] if 'basescore' in d else 0 for d in list(db.problems.find({
+        #    'pid': {"$in": list(s)}}))])
+        cache.set('teamscore_' + tid, json.dumps(score), 60 * 60)
+    else:
+        score = json.loads(score)
     return score
 
 

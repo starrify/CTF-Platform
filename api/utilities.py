@@ -88,6 +88,7 @@ def verify_email(request, session):
         db.teams.update({'tid': team['tid']}, {'$unset': {'emailverifytoken': 1}})
     except:
         return {"status": 0, "message": "验证邮箱失败. 请联系管理员."}
+    cache.delete('verified_teams')
     session['tid'] = team['tid']
     session['teamname'] = team['teamname']
     session['is_zju_user'] = is_zju_email(team['email'])
@@ -137,6 +138,7 @@ def reset_password(request):
         db.teams.update({'tid': team['tid']}, {'$set': {'email_verified': 'true'}})
     except:
         return {"status": 0, "message": "重设密码出现错误. 请重试或联系管理员."}
+    cache.delete('verified_teams')
     return {"status": 1, "message": "密码已被重设."}
 
 
@@ -196,6 +198,21 @@ def lookup_team_names(email):
     """
     send_email(email, "'CTF Platform' Teamname Lookup", msgBody)
     return {"status": 1, "message": "An email has been sent with your registered teamnames."}
+
+
+def get_verified_teams():
+    """Get list of email-verified teams
+
+    Do a cached query.
+    """
+    verified_teams = cache.get('verified_teams')
+    if verified_teams is None:
+        verified_teams = list(db.teams.find({"email_verified": "true"}, {"_id": 0, "teamname": 1, "tid": 1}))
+        cache.set('verified_teams', json.dumps(verified_teams), 60 * 60)
+    else:
+        verified_teams = json.loads(verified_teams)
+
+    return verified_teams
 
 
 def load_news():
