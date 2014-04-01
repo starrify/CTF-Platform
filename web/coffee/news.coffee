@@ -14,7 +14,7 @@ window.load_news = ->
           month = date.getMonth()
           year = date.getFullYear()
           hourminute = raw_date_string.split(" ")[1]
-          html += "<time class=\"cbp_tmtime\" datetime=\"#{raw_date_string}\"><span>#{year}年</span><span>#{if month < 10 then '0' else ''}#{month}月#{if day < 10 then '0' else ''}#{day}日</span><span>#{hourminute}</span></time>"
+          html += "<time class=\"cbp_tmtime\" datetime=\"#{raw_date_string}\"><span>#{year}年</span><span>#{if month+1 < 10 then '0' else ''}#{month+1}月#{if day < 10 then '0' else ''}#{day}日</span><span>#{hourminute}</span></time>"
         html += "<div class=\"cbp_tmlabel\">";
         html += "<h3>#{d['header']}</h3>"
         html += "<p>" + d['articlehtml'] + "</p>"
