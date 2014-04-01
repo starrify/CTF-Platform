@@ -93,8 +93,8 @@ def update_password_hook():
 @app.route('/api/problems', methods=['GET'])
 @require_login
 @return_json
-def load_unlocked_problems_hook():
-    return problem.load_unlocked_problems(session['tid'])
+def load_problems_hook():
+    return problem.load_problems(session['tid'])
 
 
 """

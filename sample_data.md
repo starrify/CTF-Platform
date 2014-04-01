@@ -2,25 +2,39 @@
 
 ## Problem example: ##
 
+category shall be (WEB|EXPLOIT|REVERSE|CRYPTO|MISC)
+(enabled|correct_msg|wrong_msg) is optional (and below are the default values)
+
     {
-        "autogen" : false,
-        # edit the following field:
         "basescore" : 20,
-        # edit the following field:
         "desc" : "<p>\nAfter opening the robot's front panel...</p>",
-        # edit the following field:
         "displayname" : "Failure to Boot",
-        # edit the following field: (WEB|EXPLOIT|REVERSE|CRYPTO|MISC)
         "category" : "MISC",
-        # edit the following field:
+        "grader-type": "file",
         "grader" : "bluescreen.py",
-        # edit the following field:
         "hint" : "It might be helpful to Google™ the error.",
-        # edit the following field:
         "pid" : "fail",
-        "threshold" : 0,
-        "weightmap" : {}
+        "enabled": true,
+        "correct_msg": "回答正确!",
+        "wrong_msg": "回答错误!"
     }
+
+or 
+
+    {
+        "basescore" : 20,
+        "desc" : "<p>\nAfter opening the robot's front panel...</p>",
+        "displayname" : "Failure to Boot",
+        "category" : "MISC",
+        "grader-type": "key",
+        "key" : "AAA",
+        "hint" : "It might be helpful to Google™ the error.",
+        "pid" : "fail",
+        "enabled": true,
+        "correct_msg": "回答正确!",
+        "wrong_msg": "回答错误!"
+    }
+
 
 ## Grader example ##
 
@@ -36,11 +50,8 @@
 ## News exapmle ##
 
     { 
-        # edit the following field:
         "date" : "2014.03.26 23:47", 
-        # edit the following field:
         "header" : "开放注册", 
-        # edit the following field:
         "articlehtml" : "安恒杯浙江大学第一届AAA信息安全技术挑战赛ACTF开放注册咯:)" 
     }
 
