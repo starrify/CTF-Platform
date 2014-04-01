@@ -11,6 +11,7 @@ import logging
 from flask import Flask, request, session, abort, redirect
 from functools import wraps
 import json
+import random
 
 import account
 import auth
@@ -29,6 +30,7 @@ def require_login(f):
     def wrapper(*args, **kwds):
         if 'tid' not in session:
             abort(403)
+        session['_rd'] = random.getrandbits(32)
         return f(*args, **kwds)
     return wrapper
 
@@ -280,7 +282,7 @@ def initialize():
 
 
 initialize()  # load all config settings and configure flask keys
-problem.load_autogenerators()  # load all auto-generated problems
+#problem.load_autogenerators()  # load all auto-generated problems
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000, threaded=True, debug=False)
