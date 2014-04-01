@@ -122,6 +122,7 @@ def load_unlocked_problems(tid):
     for p in list(db.problems.find()):
         if 'weightmap' not in p or 'threshold' not in p or sum([p['weightmap'][pid] for pid in correctPIDs if pid in p['weightmap']]) >= p['threshold']:
             unlocked.append({'pid':            p['pid'],
+                             'category':       p.get('category', None),
                              'displayname':    p.get('displayname', None),
                              'hint':           p.get('hint', None),
                              'basescore':      p.get('basescore', None),
@@ -182,11 +183,11 @@ def submit_problem(tid, request):
     key = request.form.get('key', '').encode('utf8').strip()
     correct = False
     if pid == '':
-        return {"status": 0, "points": 0, "message": "Problem ID cannot be empty."}
+        return {"status": 0, "points": 0, "message": "题目名字不能为空."}
     if key == '':
-        return {"status": 0, "points": 0, "message": "Answer cannot be empty."}
-    if pid not in [p['pid'] for p in load_unlocked_problems(tid)]:
-        return {"status": 0, "points": 0, "message": "You cannot submit problems you have not unlocked."}
+        return {"status": 0, "points": 0, "message": "答案不能为空."}
+    #if pid not in [p['pid'] for p in load_unlocked_problems(tid)]:
+    #    return {"status": 0, "points": 0, "message": "You cannot submit problems you have not unlocked."}
     prob = db.problems.find_one({"pid": pid})
     if prob is None:
         return {"status": 0, "points": 0, "message": "Problem ID not found in the database."}
