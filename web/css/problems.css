@@ -5,3 +5,18 @@
 .unsolved {
     color: red;
 }
+
+.flag-panel {
+  float: right;
+}
+
+.flag-form {
+  margin-top: 2em;
+  width: 320px;
+}
+
+.problem-title {
+  display: block;
+  font-size: 18px;
+  line-height: 1.25em;
+}

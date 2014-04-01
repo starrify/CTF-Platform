@@ -14,7 +14,7 @@ window.load_problems = ->
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#problems-accordion" href="#problem-#{id}">
+                <a data-toggle="collapse" data-parent="#problems-accordion" href="#problem-#{id}" class="problem-title">
                   #{if d['correct'] then '<span class="solved">[已解决]</span>' else '<span class="unsolved">[未解决]</span>'}
                   #{d['displayname']}
                   <div class="pull-right">
@@ -28,12 +28,25 @@ window.load_problems = ->
               <div class="panel-body">
                 #{d['desc']}
                 <hr>
-                <div id=msg_#{id}></div>
-                <form onsubmit="handle_submit('#{id}'); return false;" class="form-inline" id="form_#{id}">
-                  <input id="#{id}" type="text" class="form-control">
-                  <button class="btn btn-primary" type="submit">提交!</button>
-                </form>
+                <div class="flag-panel">
+                  <div id=msg_#{id}></div>
+                  <div class="recaptcha-container" id="recaptcha-#{id}"></div>
+                  <form onsubmit="handle_submit('#{id}'); return false;" class="form flag-form" id="form_#{id}">
+                      <input id="#{id}" type="text" class="form-control">
+                      <button class="btn btn-primary pull-right" type="submit">提交!</button>
+                  </form>
+                </div>
               </div>
             </div>
           </div>"""
-        $("#problem-#{id}").collapse
+        $("#problem-#{id}").on "show.bs.collapse", ()->
+          rid = $(this).find(".recaptcha-container").attr("id")
+          Recaptcha.destroy()
+          Recaptcha.create(
+            "6LcPFPESAAAAALdVWq62jvJ3HEEBvkcOfUOSZ9PV",
+            rid,
+            {
+              theme: "blackglass",
+              callback: Recaptcha.focus_response_field
+            }
+          )
