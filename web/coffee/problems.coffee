@@ -40,6 +40,7 @@ window.load_problems = ->
             </div>
           </div>"""
         $("#problem-#{id}").on "show.bs.collapse", ()->
+          $(this).find(".recaptcha-container").hide().show(1000)
           rid = $(this).find(".recaptcha-container").attr("id")
           Recaptcha.destroy()
           Recaptcha.create(
@@ -50,3 +51,4 @@ window.load_problems = ->
               callback: Recaptcha.focus_response_field
             }
           )
+      $(window.location.hash).collapse("show");
