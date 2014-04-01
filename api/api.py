@@ -247,6 +247,7 @@ def initialize():
     app.config['SESSION_COOKIE_DOMAIN'] = config.get('flask', 'SESSION_COOKIE_DOMAIN')
     app.config['SESSION_COOKIE_PATH'] = config.get('flask', 'SESSION_COOKIE_PATH')
     app.config['SESSION_COOKIE_NAME'] = config.get('flask', 'SESSION_COOKIE_NAME')
+    app.config['PERMANENT_SESSION_LIFETIME'] = config.get('flask', 'PERMANENT_SESSION_LIFETIME')
 
     enable_email = config.get('email', 'enable_email')
     if enable_email:
