@@ -97,6 +97,7 @@ def load_unlocked_problems_hook():
     return problem.load_unlocked_problems(session['tid'])
 
 
+"""
 @app.route('/api/problems/solved', methods=['GET'])
 @require_login
 @return_json
@@ -112,6 +113,7 @@ def get_single_problem_hook(pid):
     if 'status' not in problem_info:
         problem_info.update({"status": 1})
     return problem_info
+"""
 
 
 @app.route('/api/requestpasswordreset', methods=['POST'])

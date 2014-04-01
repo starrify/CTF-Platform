@@ -1,3 +1,6 @@
+#
+# -*- coding: utf-8 -*-
+
 __author__ = "Collin Petty"
 __copyright__ = "Carnegie Mellon University"
 __license__ = "MIT"

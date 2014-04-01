@@ -1,3 +1,6 @@
+#
+# -*- coding: utf-8 -*-
+
 __author__ = "Collin Petty"
 __copyright__ = "Carnegie Mellon University"
 __license__ = "MIT"
@@ -99,6 +102,41 @@ def build_problem_instance(prob, tid):
                                                                               'desc': desc,
                                                                               'grader': grader}}})
     return desc
+
+
+def load_problems(tid):
+    """Gets the list of all problems.
+
+    First check for 'problems' in the cache, if it exists return it otherwise rebuild the unlocked list.
+    Query all problems from the database as well as all submissions from the current team.
+    Cycle over all problems while looking at their weightmap, check to see if problems in the weightmap are solved.
+    Increment the threshold counter for solved weightmap problems.
+    If the threshold counter is higher than the problem threshold then add the problem to the return list (ret).
+    """
+    unlocked = cache.get('unlocked_' + tid)  # Get the teams list of unlocked problems from the cache
+    if unlocked is not None:  # Return this if it is not empty in the cache
+        return json.loads(unlocked)
+    unlocked = []
+    team = db.teams.find_one({'tid': tid})
+    if 'probinstance' not in team.keys():
+        db.teams.update({'tid': tid}, {'$set': {'probinstance': {}}})
+        team['probinstance'] = dict()
+    correctPIDs = {p['pid'] for p in list(db.submissions.find({"tid": tid, "correct": True}))}
+    for p in list(db.problems.find()):
+        if 'weightmap' not in p or 'threshold' not in p or sum([p['weightmap'][pid] for pid in correctPIDs if pid in p['weightmap']]) >= p['threshold']:
+            unlocked.append({'pid':            p['pid'],
+                             'category':       p.get('category', None),
+                             'displayname':    p.get('displayname', None),
+                             'hint':           p.get('hint', None),
+                             'basescore':      p.get('basescore', None),
+                             'correct':        True if p['pid'] in correctPIDs else False,
+                             'desc':           p.get('desc') if not p.get('autogen', False)
+                             else team['probinstance'][p['pid']].get('desc', None) if p['pid'] in team.get('probinstance', dict())
+                             else build_problem_instance(p, tid)})
+
+    unlocked.sort(key=lambda k: k['basescore'] if 'basescore' in k else 99999)
+    cache.set('unlocked_' + tid, json.dumps(unlocked), 60 * 60)
+    return unlocked
 
 
 def load_unlocked_problems(tid):
