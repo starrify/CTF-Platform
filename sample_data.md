@@ -3,6 +3,7 @@
 ## Problem example: ##
 
 category shall be (WEB|EXPLOIT|REVERSE|CRYPTO|MISC)
+(enabled|correct_msg|wrong_msg) is optional (and below are the default values)
 
     {
         "basescore" : 20,
@@ -13,6 +14,9 @@ category shall be (WEB|EXPLOIT|REVERSE|CRYPTO|MISC)
         "grader" : "bluescreen.py",
         "hint" : "It might be helpful to Google™ the error.",
         "pid" : "fail",
+        "enabled": true,
+        "correct_msg": "回答正确!",
+        "wrong_msg": "回答错误!"
     }
 
 or 
@@ -23,9 +27,12 @@ or
         "displayname" : "Failure to Boot",
         "category" : "MISC",
         "grader-type": "key",
-        "key" : "AAA{XXXXXXXXXXXXXXXXXXXXXXXX}",
+        "key" : "AAA",
         "hint" : "It might be helpful to Google™ the error.",
         "pid" : "fail",
+        "enabled": true,
+        "correct_msg": "回答正确!",
+        "wrong_msg": "回答错误!"
     }
 
 
