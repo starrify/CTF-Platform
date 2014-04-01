@@ -94,7 +94,7 @@ def update_password_hook():
 @require_login
 @return_json
 def load_problems_hook():
-    return problem.load_problems(session['tid'])
+    return problem.load_problems_tid(session['tid'])
 
 
 """
@@ -136,13 +136,13 @@ def verify_hook():
     return json.dumps(ret)
 
 
+"""
 @app.route('/api/lookupteamname', methods=['POST'])
 @return_json
 def lookup_team_names_hook():
     return utilities.lookup_team_names(request.form.get('email', '').encode('utf8'))
 
 
-"""
 @app.route('/api/creategroup', methods=['POST'])
 @require_login
 @return_json

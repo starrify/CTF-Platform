@@ -104,7 +104,7 @@ auto_generators = dict()
 #    return desc
 
 
-def load_problems(tid):
+def load_problems():
     """Gets the list of all problems.
 
     First check for 'problems' in the cache, if it exists return it otherwise rebuild the unlocked list.
@@ -130,11 +130,22 @@ def load_problems(tid):
         cache.set('problems' + tid, json.dumps(problems), 60 * 60)
     else:
         problems = json.loads(problems)
+    return problems
 
+
+def load_problems_tid(tid):
+    """Gets the list of all problems, with the solved/unsolved info of tid.
+
+    First check for 'problems' in the cache, if it exists return it otherwise rebuild the unlocked list.
+    Query all problems from the database as well as all submissions from the current team.
+    Cycle over all problems while looking at their weightmap, check to see if problems in the weightmap are solved.
+    Increment the threshold counter for solved weightmap problems.
+    If the threshold counter is higher than the problem threshold then add the problem to the return list (ret).
+    """
     problems_tid = cache.get('problems_' + tid)
     if problems_tid is None:
         solved = get_solved_problems(tid)
-        problems_tid = problems
+        problems_tid = load_problems()
         for p in problems_tid:
             p['correct'] = p['pid'] in solved
         cache.set('problems_' + tid, json.dumps(problems_tid), 60 * 60)
