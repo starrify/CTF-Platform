@@ -283,4 +283,4 @@ initialize()  # load all config settings and configure flask keys
 problem.load_autogenerators()  # load all auto-generated problems
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000, threaded=True)
+    app.run(host="0.0.0.0", port=8000, threaded=True, debug=False)
