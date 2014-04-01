@@ -40,7 +40,7 @@ window.load_problems = ->
             </div>
           </div>"""
         $("#problem-#{id}").on "show.bs.collapse", ()->
-          $(this).find(".recaptcha-container").hide().show(1000)
+          $(this).find(".recaptcha-container").hide().show(500)
           rid = $(this).find(".recaptcha-container").attr("id")
           Recaptcha.destroy()
           Recaptcha.create(
