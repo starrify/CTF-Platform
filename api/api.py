@@ -61,7 +61,7 @@ def setup_logging():
 @app.route('/api/login', methods=['POST'])
 @return_json
 def login_hook():
-    session['rand'] = random.getrandbits(32)
+    session['_rd'] = random.getrandbits(32)
     return auth.login(request, session)
 
 
