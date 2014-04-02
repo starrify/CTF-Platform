@@ -29,7 +29,7 @@ window.load_problems = ->
                 #{d['desc']}
                 <hr>
                 <div class="flag-panel">
-                  <div id=msg_#{id}></div>
+                  <div id=msg_#{id} margin="0 auto"></div>
                   <form onsubmit="handle_submit('#{id}'); return false;" class="flag-form" id="form_#{id}">
                       <div class="recaptcha-container" id="recaptcha-#{id}"></div>
                       <input id="#{id}" type="text" class="form-control flag-input" placeholder="FLAG">
@@ -40,7 +40,7 @@ window.load_problems = ->
             </div>
           </div>"""
         $("#problem-#{id}").on "show.bs.collapse", ()->
-          $(this).find(".recaptcha-container").hide().show(500)
+          $(this).find(".recaptcha-container").hide().show(300)
           rid = $(this).find(".recaptcha-container").attr("id")
           $(".recaptcha-container").empty()
           $(this).find(".recaptcha-container").html """
@@ -55,7 +55,6 @@ window.load_problems = ->
             {
               theme: "custom",
               custom_theme_widget: "#{rid}"
-#              callback: Recaptcha.focus_response_field
             }
           )
       $(window.location.hash).collapse("show");

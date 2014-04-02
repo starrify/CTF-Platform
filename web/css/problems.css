@@ -22,10 +22,17 @@
 }
 
 .flag-input {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
+  margin: 1em auto;
+}
+
+.flag-panel > div > .alert {
+  margin: 1em auto;
+}
+
+#recaptcha_challenge_image {
+  margin: 1em auto;
 }
 
 #recaptcha_response_field {
-  margin-top: 0.5em;
+  margin: 1em auto;
 }

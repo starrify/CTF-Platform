@@ -133,34 +133,38 @@ window.load_footer = ->
   return
 
 window.handle_submit = (prob_id) ->
-  challenge = Recaptcha.get_challenge()
-  response = Recaptcha.get_response()
-
   $.ajax(
     type: "POST"
     cache: false
     url: "/api/submit"
     dataType: "json"
+    async: false
     data:
       pid: prob_id
       key: $("#" + prob_id).val()
-      recaptcha_challenge: challenge
-      recaptcha_response: response
+      recaptcha_challenge: Recaptcha.get_challenge()
+      recaptcha_response: Recaptcha.get_response()
   ).done (data) ->
     prob_msg = $("#msg_" + prob_id)
     alert_class = ""
     if data["status"] is 0
       alert_class = "alert-danger"
     else alert_class = "alert-success"  if data["status"] is 1
-    prob_msg.hide().html("<div class=\"alert alert-dismissable " + alert_class + "\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>" + data["message"] + "</div>").slideDown "normal"
+    prob_msg.append("<div class=\"alert " + alert_class + "\">" + data["message"] + "</div>")
     setTimeout (->
-      prob_msg.slideUp "normal", ->
-        prob_msg.html("").show()
-        window.location.reload()  if data["status"] is 1
-        return
-      return
-    ), 10000
+      prob_msg.find('div').first().remove()
+    ), 3000
     return
+  rid = "recaptcha-".concat prob_id
+  #Recaptcha.destroy()
+  Recaptcha.create(
+    "6LcPFPESAAAAALdVWq62jvJ3HEEBvkcOfUOSZ9PV",
+    rid,
+    {
+      theme: "custom",
+      custom_theme_widget: "#{rid}"
+    }
+  )
 
   return false
 

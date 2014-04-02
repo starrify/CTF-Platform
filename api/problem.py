@@ -20,6 +20,7 @@ from common import cache
 from pymongo.errors import DuplicateKeyError
 from datetime import datetime
 
+from recaptcha.client import captcha
 import utilities
 
 
@@ -246,6 +247,17 @@ def submit_problem(tid, request, is_zju_user):
     (an attempt is made). A relevant message is returned if the problem has already been solved or the answer
     has been tried.
     """
+
+    response = captcha.submit(
+        request.form.get('recaptcha_challenge', ''),
+        request.form.get('recaptcha_response', ''),
+        '6LcPFPESAAAAAIkncbbAOfUi6sTSrMMxKVA9EcMq',
+        request.remote_addr
+    )
+
+    if not response.is_valid:
+        return {"status": 0, "points": 0, "message": "验证码不正确."}
+
     pid = request.form.get('pid', '')
     key = request.form.get('key', '')
     if pid == '':
