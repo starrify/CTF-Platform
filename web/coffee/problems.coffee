@@ -54,8 +54,8 @@ window.load_problems = ->
             rid,
             {
               theme: "custom",
-              custom_theme_widget: "#{rid}",
-              callback: Recaptcha.focus_response_field
+              custom_theme_widget: "#{rid}"
+#              callback: Recaptcha.focus_response_field
             }
           )
       $(window.location.hash).collapse("show");

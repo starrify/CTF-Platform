@@ -133,6 +133,11 @@ window.load_footer = ->
   return
 
 window.handle_submit = (prob_id) ->
+  challenge = Recaptcha.get_challenge()
+  response = Recaptcha.get_response()
+  console.log(challenge)
+  console.log(response)
+
   $.ajax(
     type: "POST"
     cache: false
@@ -141,6 +146,8 @@ window.handle_submit = (prob_id) ->
     data:
       pid: prob_id
       key: $("#" + prob_id).val()
+      "recaptcha_challenge": challenge
+      "recaptcha_response": reponse
   ).done (data) ->
     prob_msg = $("#msg_" + prob_id)
     alert_class = ""
@@ -158,7 +165,7 @@ window.handle_submit = (prob_id) ->
     ), 10000
     return
 
-  return
+  return false
 
 window.redirect_if_not_logged_in = ->
   $.ajax(
