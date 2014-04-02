@@ -35,7 +35,7 @@ def login(request, session):
         return {"success": 0, "message": "密码不能为空."}
     if len(teamname) > 250:
         return {"success": 0, "message": "STAHP!"}
-    teamname = teamname.encode('utf8')
+    teamname = teamname.encode('utf8').strip()
     password = password.encode('utf8')
     teamCurr = db.teams.find({'teamname': teamname})
     if teamCurr.count() == 0:  # No results returned from mongo when searching for the user

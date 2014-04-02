@@ -184,14 +184,14 @@ def load_team_score_hook():
 @app.route('/api/scoreboards', methods=['GET'])
 @return_json
 def get_scoreboards_hook():
-    return scoreboard.get_public_scoreboard()
+    return scoreboard.get_scoreboard(session)
 
 
 @app.route('/api/submit', methods=['POST'])
 @return_json
 @require_login
 def submit_problem_hook():
-    return problem.submit_problem(session['tid'], request)
+    return problem.submit_problem(session['tid'], request, session['is_zju_user'])
 
 
 @app.route('/api/news', methods=['GET'])
