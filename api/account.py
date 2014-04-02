@@ -52,7 +52,7 @@ def register_team(request):
 
     email = email.encode('utf8')
     teamname = teamname.encode('utf8')
-    affliataion = affliation.encode('utf8')
+    affiliataion = affiliation.encode('utf8')
     pwd = pwd.encode('utf8')
 
     tid = common.token()
