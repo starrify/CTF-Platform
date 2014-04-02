@@ -92,7 +92,7 @@ def verify_email(request, session):
     if team is None:
         return {"status": 0, "message": "验证信息无效."}
     try:
-        db.teams.update({'tid': team['tid']}, {'$set': {'email_verified': 'true'}})
+        db.teams.update({'tid': team['tid']}, {'$set': {'email_verified': True}})
         db.teams.update({'tid': team['tid']}, {'$unset': {'emailverifytoken': 1}})
     except:
         return {"status": 0, "message": "验证邮箱失败. 请联系管理员."}
@@ -145,7 +145,7 @@ def reset_password(request):
     try:
         db.teams.update({'tid': team['tid']}, {'$set': {'pwhash': bcrypt.hashpw(newpw, bcrypt.gensalt(8))}})
         db.teams.update({'tid': team['tid']}, {'$unset': {'passrestoken': 1}})
-        db.teams.update({'tid': team['tid']}, {'$set': {'email_verified': 'true'}})
+        db.teams.update({'tid': team['tid']}, {'$set': {'email_verified': True}})
     except:
         return {"status": 0, "message": "重设密码出现错误. 请重试或联系管理员."}
     cache.delete('verified_teams')
@@ -218,7 +218,7 @@ def get_verified_teams():
     """
     verified_teams = cache.get('verified_teams')
     if verified_teams is None:
-        verified_teams = list(db.teams.find({"email_verified": "true"}, {"_id": 0, "teamname": 1, "tid": 1}))
+        verified_teams = list(db.teams.find({"email_verified": True}, {"_id": 0, "teamname": 1, "tid": 1}))
         cache.set('verified_teams', json.dumps(verified_teams), 60 * 60)
     else:
         verified_teams = json.loads(verified_teams)

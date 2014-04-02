@@ -60,7 +60,7 @@ def register_team(request):
                      'teamname': teamname,
                      'affiliation': affiliation,
                      'pwhash': bcrypt.hashpw(pwd, bcrypt.gensalt(8)),
-                     'email_verified': 'false',
+                     'email_verified': False,
                      'tid': tid})
     utilities.prepare_verify_email(teamname, email)
     return {'status': 1, 'message': "注册成功. 请访问邮箱查收验证邮件."}

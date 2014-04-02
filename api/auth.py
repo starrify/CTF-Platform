@@ -43,7 +43,7 @@ def login(request, session):
     if teamCurr.count() > 1:
         return {"success": 0, "message": "查找用户信息失败. 请联系管理员."}
     checkTeam = teamCurr[0]
-    if checkTeam['email_verified'] == 'false':
+    if checkTeam['email_verified'] == False:
         return {"success": 0, "message": "请先访问邮箱查收验证邮件."}
     pwhash = checkTeam['pwhash']  # The pw hash from the db
     if bcrypt.hashpw(password, pwhash) == pwhash:
