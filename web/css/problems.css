@@ -12,7 +12,6 @@
 }
 
 .flag-form {
-  margin-top: 0.5em;
   width: 300px;
 }
 
@@ -23,6 +22,7 @@
 }
 
 .flag-input {
+  margin-top: 0.5em;
   margin-bottom: 0.5em;
 }
 

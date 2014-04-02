@@ -30,8 +30,8 @@ window.load_problems = ->
                 <hr>
                 <div class="flag-panel">
                   <div id=msg_#{id}></div>
-                  <div class="recaptcha-container" id="recaptcha-#{id}"></div>
                   <form onsubmit="handle_submit('#{id}'); return false;" class="flag-form" id="form_#{id}">
+                      <div class="recaptcha-container" id="recaptcha-#{id}"></div>
                       <input id="#{id}" type="text" class="form-control flag-input" placeholder="FLAG">
                       <button class="btn btn-primary pull-right" type="submit">提交!</button>
                   </form>
