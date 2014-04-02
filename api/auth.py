@@ -27,14 +27,16 @@ def login(request, session):
 
     if 'tid' in session:  # we assume that if there is a tid in the session dict then the user is authenticated
         return {"success": 1, "message": "你已经登录了."}
-    teamname = request.form.get('teamname', None).encode('utf8')  # get the teamname and password from the POSTed form
-    password = request.form.get('password', None).encode('utf8')
+    teamname = request.form.get('teamname', None)  # get the teamname and password from the POSTed form
+    password = request.form.get('password', None)
     if teamname is None or teamname == '':
         return {'success': 0, 'message': "用户名不能为空."}
     if password is None or password == '':  # No password submitted
         return {"success": 0, "message": "密码不能为空."}
     if len(teamname) > 250:
         return {"success": 0, "message": "STAHP!"}
+    teamname = teamname.encode('utf8')
+    password = password.encode('utf8')
     teamCurr = db.teams.find({'teamname': teamname})
     if teamCurr.count() == 0:  # No results returned from mongo when searching for the user
         return {"success": 0, "message": "未找到用户名'%s'." % teamname}

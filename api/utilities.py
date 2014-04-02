@@ -83,9 +83,10 @@ def verify_email(request, session):
     Gets a token from the url parameters, if the token is found in a team object in the database
     the new password is hashed and set, the token is then removed and an appropriate response is returned.
     """
-    token = request.args.get('token', None).encode('utf8').encode('utf8')
+    token = request.args.get('token', None)
     if token is None or token == '':
         return {"status": 0, "message": "验证信息不能为空."}
+    token = token.encode('utf8')
 
     team = db.teams.find_one({'emailverifytoken': token})
     if team is None:
@@ -129,12 +130,14 @@ def reset_password(request):
     Gets a token and new password from a submitted form, if the token is found in a team object in the database
     the new password is hashed and set, the token is then removed and an appropriate response is returned.
     """
-    token = request.form.get('token', None).encode('utf8')
-    newpw = request.form.get('newpw', None).encode('utf8')
+    token = request.form.get('token', None)
+    newpw = request.form.get('newpw', None)
     if token is None or token == '':
         return {"status": 0, "message": "密码重设密钥不能为空."}
     if newpw is None or newpw == '':
         return {"status": 0, "message": "新密码不能为空."}
+    token = token.encode('utf8')
+    newpw = newpw.encode('utf8')
 
     team = db.teams.find_one({'passrestoken': token})
     if team is None:
@@ -158,9 +161,10 @@ def request_password_reset(request):
     link to submit a new password, if the token submitted with the new password matches the db token the password
     is hashed and updated in the db.
     """
-    teamname = request.form.get('teamname', None).encode('utf8')
+    teamname = request.form.get('teamname', None)
     if teamname is None or teamname == '':
         return {"success": 0, "message": "用户名不能为空."}
+    teamname = teamname.encode('utf8')
     team = db.teams.find_one({'teamname': teamname})
     if team is None:
         return {"success": 0, "message": "未找到用户'%s'." % teamname}

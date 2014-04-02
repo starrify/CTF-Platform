@@ -246,15 +246,16 @@ def submit_problem(tid, request):
     (an attempt is made). A relevant message is returned if the problem has already been solved or the answer
     has been tried.
     """
-    pid = request.form.get('pid', '').encode('utf8').strip()
-    key = request.form.get('key', '').encode('utf8').strip()
-    correct = False
+    pid = request.form.get('pid', '')
+    key = request.form.get('key', '')
     if pid == '':
         return {"status": 0, "points": 0, "message": "题目名字不能为空."}
     if key == '':
         return {"status": 0, "points": 0, "message": "答案不能为空."}
     #if pid not in [p['pid'] for p in load_unlocked_problems(tid)]:
     #    return {"status": 0, "points": 0, "message": "You cannot submit problems you have not unlocked."}
+    pid = pid.encode('utf8').strip()
+    key = key.encode('utf8').strip()
     prob = cache.get('problem_' + pid)
     if prob is None:
         prob = db.problems.find_one({"pid": pid})
@@ -265,6 +266,7 @@ def submit_problem(tid, request):
     else:
         prob = json.loads(prob)
 
+    correct = False
     grader_type = prob.get('grader-type', 'file')
     if grader_type == 'file':
         (correct, message) = imp.load_source(prob['grader'][:-3], "./graders/" + prob['grader']).grade(tid, key)
