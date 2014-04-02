@@ -2,13 +2,16 @@ window.show_site_down_error = ->
   $(".contentbox").html "<div class=\"row-fluid\"><div class=\"offset1 span10\"><div class=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>发生了未知错误. 请联系<a href=\"mailto:actf.zju@gmail.com\">actf.zju@gmail.com</a></div></div></div>"
   return
 
-window.is_zju_text = {'true': '（校内用户）', 'false': '（校外用户）'}
+#window.is_zju_text = {'true': '（校内用户）', 'false': '（校外用户）'}
+window.scoreboard_text_zju = {'true': '排名（校内）', 'false': '排名（校外）'}
 
-window.set_navbar_teamname = (teamname, is_zju_user) ->
+window.set_navbar_zju = (teamname, is_zju_user) ->
   i = 0
   while i < tabsLI.length
     if tabsLI[i][0] == 'account'
-      tabsLI[i][1] = teamname.concat is_zju_text[is_zju_user]
+      tabsLI[i][1] = teamname
+    if tabsLI[i][0] == 'scoreboard'
+      tabsLI[i][1] = scoreboard_text_zju[is_zju_user]
     i++
 
 window.build_navbar = (tabs) ->
@@ -69,7 +72,7 @@ window.check_certs_link_necessary = ->
 window.display_navbar = ->
   unless typeof (Storage) is "undefined"
     if sessionStorage.signInStatus is "loggedIn"
-      set_navbar_teamname sessionStorage.teamname, sessionStorage.is_zju_user
+      set_navbar_zju sessionStorage.teamname, sessionStorage.is_zju_user
       build_navbar tabsLI
       # check_certs_link_necessary()
     else if sessionStorage.signInStatus is "notLoggedIn"
@@ -87,7 +90,7 @@ window.display_navbar = ->
         sessionStorage.signInStatus = "loggedIn"
         sessionStorage.teamname = data['teamname']
         sessionStorage.is_zju_user = data['is_zju_user']
-        set_navbar_teamname sessionStorage.teamname, sessionStorage.is_zju_user
+        set_navbar_zju sessionStorage.teamname, sessionStorage.is_zju_user
         build_navbar tabsLI
         # check_certs_link_necessary()
       else if data["success"] is 0 and sessionStorage.signInStatus isnt "notLoggedIn"
@@ -108,7 +111,7 @@ window.display_navbar = ->
       cache: false
     ).done((data) ->
       if data['success']
-        set_navbar_teamname data['teamname'], data['is_zju_user']
+        set_navbar_zju data['teamname'], data['is_zju_user']
       build_navbar (if data["success"] is 1 then tabsLI else tabsNLI)
       return
     ).fail ->
@@ -172,17 +175,17 @@ window.redirect_if_not_logged_in = ->
   return
 
 window.tabsLI = [
-#  [
-#    "scoreboard"
-#    "排名"
-#  ]
-#  [
-#    "problems"
-#    "题目"
-#  ]
   [
     "rules"
     "规则"
+  ]
+  [
+    "problems"
+    "题目"
+  ]
+  [
+    "scoreboard"
+    "排名（校外）"
   ]
   [
     "account"
@@ -198,6 +201,10 @@ window.tabsNLI = [
   [
     "rules"
     "规则"
+  ]
+  [
+    "scoreboard"
+    "排名（校外）"
   ]
   [
     "registration"

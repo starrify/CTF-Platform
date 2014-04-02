@@ -21,6 +21,7 @@ import common
 import json
 import datetime
 import time
+import re
 
 enable_email = False
 
@@ -44,7 +45,9 @@ def is_zju_email(email):
         '@gstu.zju.edu.cn',
         '@fa.zju.edu.cn',
     ]
-    return any([email.endswith(suffix) for suffix in zju_email])
+    return email.endswith('zju.edu.cn')
+    #return any([email.endswith(suffix) for suffix in zju_email])
+
 
 def send_email(recip, subject, body):
     """Send an email with the given body text and subject to the given recipient.
@@ -96,7 +99,10 @@ def verify_email(request, session):
         db.teams.update({'tid': team['tid']}, {'$unset': {'emailverifytoken': 1}})
     except:
         return {"status": 0, "message": "验证邮箱失败. 请联系管理员."}
-    cache.delete('verified_teams')
+    if is_zju_email(team['email']):
+        cache.delete('verified_teams_zju')
+    else:
+        cache.delete('verified_teams_public')
     session['tid'] = team['tid']
     session['teamname'] = team['teamname']
     session['is_zju_user'] = is_zju_email(team['email'])
@@ -148,7 +154,11 @@ def reset_password(request):
         db.teams.update({'tid': team['tid']}, {'$set': {'email_verified': True}})
     except:
         return {"status": 0, "message": "重设密码出现错误. 请重试或联系管理员."}
-    cache.delete('verified_teams')
+    if not team['email_verified']:
+        if is_zju_email(team['email']):
+            cache.delete('verified_teams_zju')
+        else:
+            cache.delete('verified_teams_public')
     return {"status": 1, "message": "密码已被重设."}
 
 
@@ -164,7 +174,7 @@ def request_password_reset(request):
     teamname = request.form.get('teamname', None)
     if teamname is None or teamname == '':
         return {"success": 0, "message": "用户名不能为空."}
-    teamname = teamname.encode('utf8')
+    teamname = teamname.encode('utf8').strip()
     team = db.teams.find_one({'teamname': teamname})
     if team is None:
         return {"success": 0, "message": "未找到用户'%s'." % teamname}
@@ -211,15 +221,58 @@ def lookup_team_names(email):
     return {"status": 1, "message": "An email has been sent with your registered teamnames."}
 
 
-def get_verified_teams():
-    """Get list of email-verified teams
+#def get_verified_teams():
+#    """Get list of email-verified teams
+#
+#    Do a cached query.
+#    """
+#    verified_teams = cache.get('verified_teams')
+#    if verified_teams is None:
+#        verified_teams = list(db.teams.find({"email_verified": True}, {"_id": 0, "teamname": 1, "tid": 1}))
+#        cache.set('verified_teams', json.dumps(verified_teams), 60 * 60)
+#    else:
+#        verified_teams = json.loads(verified_teams)
+#
+#    return verified_teams
+
+
+def get_verified_teams_public():
+    """Get list of email-verified teams public
 
     Do a cached query.
     """
-    verified_teams = cache.get('verified_teams')
+    verified_teams = cache.get('verified_teams_public')
     if verified_teams is None:
-        verified_teams = list(db.teams.find({"email_verified": True}, {"_id": 0, "teamname": 1, "tid": 1}))
-        cache.set('verified_teams', json.dumps(verified_teams), 60 * 60)
+        verified_teams = list(db.teams.find({
+            "email_verified": True,
+            "email": {"$not": re.compile(".*zju\.edu\.cn$")}
+        }, {
+            "_id": 0, 
+            "teamname": 1, 
+            "tid": 1
+        }))
+        cache.set('verified_teams_public', json.dumps(verified_teams), 60 * 60)
+    else:
+        verified_teams = json.loads(verified_teams)
+    return verified_teams
+
+
+def get_verified_teams_zju():
+    """Get list of email-verified teams zju
+
+    Do a cached query.
+    """
+    verified_teams = cache.get('verified_teams_zju')
+    if verified_teams is None:
+        verified_teams = list(db.teams.find({
+            "email_verified": True,
+            "email": {"$regex": r".*zju\.edu\.cn$"}
+        }, {
+            "_id": 0, 
+            "teamname": 1, 
+            "tid": 1
+        }))
+        cache.set('verified_teams_zju', json.dumps(verified_teams), 60 * 60)
     else:
         verified_teams = json.loads(verified_teams)
 

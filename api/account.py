@@ -50,9 +50,9 @@ def register_team(request):
     if db.teams.find({'email': email}).count() != 0:
         return {'status': 0, 'message': "邮箱已经被使用."}
 
-    email = email.encode('utf8')
-    teamname = teamname.encode('utf8')
-    affiliataion = affiliation.encode('utf8')
+    email = email.encode('utf8').strip()
+    teamname = teamname.encode('utf8').strip()
+    affiliataion = affiliation.encode('utf8').strip()
     pwd = pwd.encode('utf8')
 
     tid = common.token()

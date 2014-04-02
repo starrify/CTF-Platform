@@ -238,7 +238,7 @@ def get_solved_problems(tid):
 #    return {'status': 0, 'message': 'Internal error, problem not found.'}
 
 
-def submit_problem(tid, request):
+def submit_problem(tid, request, is_zju_user):
     """Handle problem submission.
 
     Gets the key and pid from the submitted problem, calls the respective grading function if the values aren't empty.
@@ -267,7 +267,7 @@ def submit_problem(tid, request):
         prob = json.loads(prob)
 
     correct = False
-    grader_type = prob.get('grader-type', 'file')
+    grader_type = prob.get('grader-type', 'key')
     if grader_type == 'file':
         (correct, message) = imp.load_source(prob['grader'][:-3], "./graders/" + prob['grader']).grade(tid, key)
     elif grader_type == 'key':
@@ -283,8 +283,11 @@ def submit_problem(tid, request):
     if correct:
         #cache.delete('unlocked_' + tid)  # Clear the unlocked problem cache as it needs updating
         cache.delete('solved_' + tid)  # Clear the list of solved problems
-        cache.delete('problems_' + tid)  
-        cache.delete('scoreboard')  
+        cache.delete('problems_' + tid)
+        if is_zju_user:
+            cache.delete('scoreboard_zju')  
+        else:
+            cache.delete('scoreboard_public')  
         cache.delete('teamscore_' + tid)  # Clear the team's cached score
         cache.delete('lastsubdate_' + tid)
         try:
