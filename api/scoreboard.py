@@ -11,6 +11,7 @@ __status__ = "Production"
 
 
 from datetime import datetime
+import time
 import json
 import group
 from common import db
@@ -20,7 +21,10 @@ from common import esc
 import problem
 import utilities
 
-ctf_start = datetime.utcfromtimestamp(1396656000)
+#ctf_start = utilities.timestamp(datetime(2014, 04, 05, 00) - datetime.utcnow() + datetime.now())
+# For debugging only
+ctf_start = utilities.timestamp(datetime(2014, 04, 01, 00) - datetime.utcnow() + datetime.now())
+ctf_end = utilities.timestamp(datetime(2014, 04, 06, 15) - datetime.utcnow() + datetime.now())
 
 
 def get_group_scoreboards(tid):
@@ -57,7 +61,12 @@ def get_public_scoreboard():
             "score": load_team_score(t['tid']),
             "solved": problem.get_solved_problems(t['tid'])
         }   for t in verified_teams]
-        team_scores.sort(key=lambda x: (-x['score']['score'], 'penalty here'))
+        team_scores.sort(key=lambda x: (-x['score']['score'], x['score']['time_penalty']))
+        team_scores = [{
+            'teamname': t['teamname'], 
+            'score': t['score']['score'],
+            'solved': t['solved']
+        }   for t in team_scores]
         scoreboard['teamscores'] = team_scores
         cache.set('scoreboard', json.dumps(scoreboard), 60 * 60)
     else:
@@ -79,9 +88,19 @@ def load_team_score(tid):
         score = dict()
         score['score'] = sum(pscore[pid] for pid in solved)
         # TODO: calculate time penalty
-        #s = {d['pid'] for d in list(db.submissions.find({"tid": tid, "correct": True}))}  # ,#"timestamp": {"$lt": end}}))}
-        #score = sum([d['basescore'] if 'basescore' in d else 0 for d in list(db.problems.find({
-        #    'pid': {"$in": list(s)}}))])
+        submission = list(db.submissions.find(
+            {
+                "tid": tid, 
+                "correct": True,
+                "timestamp": {"$gt": ctf_start},
+                "timestamp": {"$lt": ctf_end}
+            }, {
+                "_id": 0, 
+                "pid": 1, 
+                "timestamp": 1
+            }))
+        time_penalty = sum(s['timestamp'] - ctf_start for s in submission)
+        score['time_penalty'] = time_penalty
         cache.set('teamscore_' + tid, json.dumps(score), 60 * 60)
     else:
         score = json.loads(score)

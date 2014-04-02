@@ -20,6 +20,8 @@ from common import cache
 from pymongo.errors import DuplicateKeyError
 from datetime import datetime
 
+import utilities
+
 
 root_web_path = ""
 relative_auto_prob_path = ""
@@ -115,6 +117,21 @@ def load_problems():
     """
     problems = cache.get('problems')
     if problems is None:
+        problems = list(db.problems.find(
+            {
+                "enabled": {"$ne": False}
+            },
+            {
+                "_id": 0, 
+                "pid": 1, 
+                "category": 1, 
+                "displayname": 1, 
+                "hint": 1,
+                "basescore": 1, 
+                "desc": 1
+            }))
+
+        """
         problems = []
         for p in list(db.problems.find()):
             #if 'weightmap' not in p or 'threshold' not in p or sum([p['weightmap'][pid] for pid in correctPIDs if pid in p['weightmap']]) >= p['threshold']:
@@ -126,6 +143,7 @@ def load_problems():
                                  'basescore':      p.get('basescore', None),
                                  #'correct':        True if p['pid'] in correctPIDs else False,
                                  'desc':           p.get('desc') })
+        """
         problems.sort(key=lambda k: (k['basescore'] if 'basescore' in k else 99999, k['pid']))
         cache.set('problems', json.dumps(problems), 60 * 60)
     else:
@@ -255,7 +273,7 @@ def submit_problem(tid, request):
         message = prob.get('correct_msg', '回答正确!') if correct else prob.get('wrong_msg', '回答错误!')
 
     submission = {'tid': tid,
-                  'timestamp': datetime.utcnow(),
+                  'timestamp': utilities.timestamp(datetime.utcnow()),
                   'pid': pid,
                   'ip': request.headers.get('X-Real-IP', None),
                   'key': key,
@@ -264,6 +282,7 @@ def submit_problem(tid, request):
         #cache.delete('unlocked_' + tid)  # Clear the unlocked problem cache as it needs updating
         cache.delete('solved_' + tid)  # Clear the list of solved problems
         cache.delete('problems_' + tid)  
+        cache.delete('scoreboard')  
         cache.delete('teamscore_' + tid)  # Clear the team's cached score
         cache.delete('lastsubdate_' + tid)
         try:

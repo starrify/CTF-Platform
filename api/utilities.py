@@ -19,6 +19,8 @@ from email.utils import formataddr
 import bcrypt
 import common
 import json
+import datetime
+import time
 
 enable_email = False
 
@@ -29,6 +31,11 @@ from_addr = ''
 from_name = ''
 
 site_domain = ''
+
+
+def timestamp(dt):
+    return time.mktime(dt.timetuple())
+
 
 def is_zju_email(email):
     zju_email = [
