@@ -182,7 +182,6 @@ def load_team_score_hook():
 
 
 @app.route('/api/scoreboards', methods=['GET'])
-@require_login
 @return_json
 def get_scoreboards_hook():
     return scoreboard.get_public_scoreboard()

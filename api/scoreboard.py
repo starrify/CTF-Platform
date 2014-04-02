@@ -53,7 +53,7 @@ def get_public_scoreboard():
     if scoreboard is None:
         scoreboard = dict()
         problems = problem.load_problems()
-        problems = [p['pid'] for p in problems]
+        problems = [{'pid': p['pid'], 'displayname': p['displayname']} for p in problems]
         scoreboard['problems'] = problems
         verified_teams = utilities.get_verified_teams()
         team_scores = [{
