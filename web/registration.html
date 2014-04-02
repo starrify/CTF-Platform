@@ -39,7 +39,7 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="reg-email">邮箱</label>
                     <div class="col-sm-9">
-                        <input id="reg-email" placeholder="邮箱" type="email" class="form-control">
+                        <input name="reg-email" id="reg-email" placeholder="邮箱" type="email" class="form-control">
                         <span class="label label-info pull-right">
                             本次比赛将对校内与校外用户分别排名.<br>
                             来自浙江大学的用户请使用校内邮箱注册.
@@ -50,7 +50,7 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="reg-team">用户名</label>
                     <div class="col-sm-9">
-                        <input id="reg-team" placeholder="用户名" type="text" class="form-control">
+                        <input name="reg-team" id="reg-team" placeholder="用户名" type="text" class="form-control">
                     </div>
                 </div>
                 <div class="form-group">
@@ -83,10 +83,29 @@
 <script src="js/bootstrap.min.js"></script>
 <script src="js/dependencies.js"></script>
 <script src="js/registration.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+<script src="js/messages_zh.js"></script>
 <script>
     $(function () {
         display_navbar();
         load_footer();
+        $("form").validate({
+            rules: {
+              "reg-email": {
+                required: true,
+                email: true
+              },
+              "reg-team": {
+                required: true
+              }
+            },
+            highlight: function (element) {
+              $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            },
+            unhighlight: function (element) {
+              $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+            }
+          });
     })
 </script>
 

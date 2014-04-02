@@ -32,7 +32,7 @@ window.load_problems = ->
                   <div id=msg_#{id}></div>
                   <div class="recaptcha-container" id="recaptcha-#{id}"></div>
                   <form onsubmit="handle_submit('#{id}'); return false;" class="flag-form" id="form_#{id}">
-                      <input id="#{id}" type="text" class="form-control flag-input">
+                      <input id="#{id}" type="text" class="form-control flag-input" placeholder="FLAG">
                       <button class="btn btn-primary pull-right" type="submit">提交!</button>
                   </form>
                 </div>
@@ -42,12 +42,19 @@ window.load_problems = ->
         $("#problem-#{id}").on "show.bs.collapse", ()->
           $(this).find(".recaptcha-container").hide().show(500)
           rid = $(this).find(".recaptcha-container").attr("id")
+          $(".recaptcha-container").empty()
+          $(this).find(".recaptcha-container").html """
+            <div onClick="javascript:Recaptcha.reload()" title="点击图片以切换验证码" id="recaptcha_image" data-toggle="tooltip" data-placement="bottom"></div>
+            <input type="text" id="recaptcha_response_field" name="recaptcha_response_field" class="form-control" placeholder="CAPTCHA" />
+            """
+          $("#recaptcha_image").tooltip()
           Recaptcha.destroy()
           Recaptcha.create(
             "6LcPFPESAAAAALdVWq62jvJ3HEEBvkcOfUOSZ9PV",
             rid,
             {
-              theme: "blackglass",
+              theme: "custom",
+              custom_theme_widget: "#{rid}",
               callback: Recaptcha.focus_response_field
             }
           )

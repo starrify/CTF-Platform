@@ -145,9 +145,9 @@ window.handle_submit = (prob_id) ->
     prob_msg = $("#msg_" + prob_id)
     alert_class = ""
     if data["status"] is 0
-      alert_class = "alert-error"
+      alert_class = "alert-danger"
     else alert_class = "alert-success"  if data["status"] is 1
-    prob_msg.hide().html("<div class=\"alert " + alert_class + "\">" + data["message"] + "</div>").slideDown "normal"
+    prob_msg.hide().html("<div class=\"alert alert-dismissable " + alert_class + "\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>" + data["message"] + "</div>").slideDown "normal"
     setTimeout (->
       prob_msg.slideUp "normal", ->
         prob_msg.html("").show()
@@ -155,7 +155,7 @@ window.handle_submit = (prob_id) ->
         return
 
       return
-    ), 2500
+    ), 10000
     return
 
   return

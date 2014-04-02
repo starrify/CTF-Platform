@@ -7,12 +7,13 @@
 }
 
 .flag-panel {
-  float: right;
+  margin: 0 auto;
+  width: 300px;
 }
 
 .flag-form {
-  margin-top: 2em;
-  width: 320px;
+  margin-top: 0.5em;
+  width: 300px;
 }
 
 .problem-title {
@@ -23,4 +24,8 @@
 
 .flag-input {
   margin-bottom: 0.5em;
+}
+
+#recaptcha_response_field {
+  margin-top: 0.5em;
 }
