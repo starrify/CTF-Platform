@@ -9,7 +9,7 @@ window.set_navbar_zju = (teamname, is_zju_user) ->
   i = 0
   while i < tabsLI.length
     if tabsLI[i][0] == 'account'
-      tabsLI[i][1] = teamname
+      tabsLI[i][1] = teamname + scoreboard_text_zju[is_zju_user]
     if tabsLI[i][0] == 'scoreboard'
       tabsLI[i][1] = scoreboard_text_zju[is_zju_user]
     i++
@@ -187,6 +187,7 @@ window.tabsLI = [
     "rules"
     "规则"
   ]
+    ###
   [
     "problems"
     "题目"
@@ -195,6 +196,7 @@ window.tabsLI = [
     "scoreboard"
     "排名（校外）"
   ]
+  ###
   [
     "account"
     "账户信息"
@@ -210,10 +212,12 @@ window.tabsNLI = [
     "rules"
     "规则"
   ]
+    ###
   [
     "scoreboard"
     "排名（校外）"
   ]
+  ###
   [
     "registration"
     "注册"
