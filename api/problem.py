@@ -20,7 +20,7 @@ from common import cache
 from pymongo.errors import DuplicateKeyError
 from datetime import datetime
 
-from recaptcha.client import captcha
+import captcha
 import utilities
 
 

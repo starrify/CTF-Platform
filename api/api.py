@@ -83,18 +83,22 @@ def register_team_hook():
     return account.register_team(request)
 
 
+"""
 @app.route('/api/updatepass', methods=['POST'])
 @return_json
 @require_login
 def update_password_hook():
     return account.update_password(session['tid'], request)
+"""
 
 
+"""
 @app.route('/api/problems', methods=['GET'])
 @require_login
 @return_json
 def load_problems_hook():
     return problem.load_problems_tid(session['tid'])
+"""
 
 
 """
@@ -181,6 +185,7 @@ def load_team_score_hook():
 """
 
 
+"""
 @app.route('/api/scoreboards', methods=['GET'])
 @return_json
 def get_scoreboards_hook():
@@ -192,6 +197,7 @@ def get_scoreboards_hook():
 @require_login
 def submit_problem_hook():
     return problem.submit_problem(session['tid'], request, session['is_zju_user'])
+"""
 
 
 @app.route('/api/news', methods=['GET'])
