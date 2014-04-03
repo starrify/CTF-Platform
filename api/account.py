@@ -50,15 +50,15 @@ def register_team(request):
     if db.teams.find({'email': email}).count() != 0:
         return {'status': 0, 'message': "邮箱已经被使用."}
 
-    if len(teamname) > 20:
-        return {'status': 0, 'message': "用户名请不要太长.."}
-    if '<' in teamname or '>' teamname:
-        return {'status': 0, 'message': "用户名不可包含尖括号. 请尝试使用≺⋖≤⩽≪等符号. 谢谢."}
-
     email = email.encode('utf8').strip()
     teamname = teamname.encode('utf8').strip()
     affiliataion = affiliation.encode('utf8').strip()
     pwd = pwd.encode('utf8')
+
+    if len(teamname) > 20:
+        return {'status': 0, 'message': "用户名请不要太长.."}
+    if '<' in teamname or '>' in teamname:
+        return {'status': 0, 'message': "用户名不可包含尖括号. 请尝试使用≺⋖≤⩽≪等符号. 谢谢."}
 
     tid = common.token()
     db.teams.insert({'email': email,
