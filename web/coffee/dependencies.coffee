@@ -187,7 +187,7 @@ window.tabsLI = [
     "rules"
     "规则"
   ]
-    ###
+  ###
   [
     "problems"
     "题目"
@@ -212,7 +212,7 @@ window.tabsNLI = [
     "rules"
     "规则"
   ]
-    ###
+  ###
   [
     "scoreboard"
     "排名（校外）"
