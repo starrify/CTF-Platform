@@ -83,13 +83,11 @@ def register_team_hook():
     return account.register_team(request)
 
 
-"""
 @app.route('/api/updatepass', methods=['POST'])
 @return_json
 @require_login
 def update_password_hook():
     return account.update_password(session['tid'], request)
-"""
 
 
 """
