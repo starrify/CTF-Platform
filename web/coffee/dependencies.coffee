@@ -187,16 +187,14 @@ window.tabsLI = [
     "rules"
     "规则"
   ]
-  ###
-  [
-    "problems"
-    "题目"
-  ]
-  [
-    "scoreboard"
-    "排名（校外）"
-  ]
-  ###
+#  [
+#    "problems"
+#    "题目"
+#  ]
+#  [
+#    "scoreboard"
+#    "排名（校外）"
+#  ]
   [
     "account"
     "账户信息"
@@ -212,12 +210,10 @@ window.tabsNLI = [
     "rules"
     "规则"
   ]
-  ###
-  [
-    "scoreboard"
-    "排名（校外）"
-  ]
-  ###
+#  [
+#    "scoreboard"
+#    "排名（校外）"
+#  ]
   [
     "registration"
     "注册"
