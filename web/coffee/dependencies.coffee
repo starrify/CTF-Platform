@@ -2,14 +2,14 @@ window.show_site_down_error = ->
   $(".contentbox").html "<div class=\"row-fluid\"><div class=\"offset1 span10\"><div class=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>发生了未知错误. 请联系<a href=\"mailto:actf.zju@gmail.com\">actf.zju@gmail.com</a></div></div></div>"
   return
 
-#window.is_zju_text = {'true': '（校内用户）', 'false': '（校外用户）'}
+window.is_zju_text = {'true': '（校内用户）', 'false': '（校外用户）'}
 window.scoreboard_text_zju = {'true': '排名（校内）', 'false': '排名（校外）'}
 
 window.set_navbar_zju = (teamname, is_zju_user) ->
   i = 0
   while i < tabsLI.length
     if tabsLI[i][0] == 'account'
-      tabsLI[i][1] = teamname + scoreboard_text_zju[is_zju_user]
+      tabsLI[i][1] = teamname + is_zju_text[is_zju_user]
     if tabsLI[i][0] == 'scoreboard'
       tabsLI[i][1] = scoreboard_text_zju[is_zju_user]
     i++
