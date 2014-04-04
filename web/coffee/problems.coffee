@@ -29,10 +29,11 @@ window.load_problems = ->
                 #{d['desc']}
                 <hr>
                 <div class="flag-panel">
-                  <div id=msg_#{id} margin="0 auto"></div>
-                  <form onsubmit="handle_submit('#{id}'); return false;" class="flag-form" id="form_#{id}">
-                      <div class="recaptcha-container" id="recaptcha-#{id}"></div>
-                      <input id="#{id}" type="text" class="form-control flag-input" placeholder="FLAG">
+                  <form onsubmit="javascript:return false;" class="flag-form">
+                      <div class="recaptcha-container form-group" id="recaptcha-#{id}"></div>
+                      <div class="form-group">
+                        <input name="flag" id="#{id}" type="text" class="form-control flag-input" placeholder="FLAG">
+                      </div>
                       <button class="btn btn-primary pull-right" type="submit">提交!</button>
                   </form>
                 </div>
@@ -58,3 +59,17 @@ window.load_problems = ->
             }
           )
       $(window.location.hash).collapse("show");
+      $("form").each () ->
+        $(this).validate
+          "rules":
+            "recaptcha_response_field":
+                required: true
+            flag:
+                required: true
+          submitHandler: (form) ->
+            handle_submit($(form).find("input[name=flag]").attr("id"))
+          highlight: (element) ->
+            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+          unhighlight: (element) ->
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+
