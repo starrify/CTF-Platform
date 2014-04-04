@@ -3,7 +3,7 @@ display_progress = (problems, solved) ->
   for problem in problems
     progress_html += """
       <li>
-        <a target="_blank" href="/problems#problem-#{problem["pid"]}" class="progress-bullet #{if problem["pid"] in solved then "solved" else "unsolved"}" data-toggle="tooltip" data-placement="bottom" title="#{problem["displayname"]}">O</a>
+        <a target="_blank" href="/problems#problem-#{problem["pid"]}" class="progress-bullet #{if problem["pid"] in solved then "solved" else "unsolved"}" data-toggle="tooltip" data-placement="bottom" title="#{problem["displayname"]}"></a>
       </li>"""
   progress_html += "</ul>"
 
