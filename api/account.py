@@ -45,15 +45,16 @@ def register_team(request):
 
     if '' in {email, teamname, affiliation, pwd}:
         return {'status': 0, 'message': "请填写必须的信息."}
-    if db.teams.find({'teamname': teamname}).count() != 0:
-        return {'status': 0, 'message': "用户名已经被使用."}
-    if db.teams.find({'email': email}).count() != 0:
-        return {'status': 0, 'message': "邮箱已经被使用."}
 
     email = email.encode('utf8').strip()
     teamname = teamname.encode('utf8').strip()
     affiliataion = affiliation.encode('utf8').strip()
     pwd = pwd.encode('utf8')
+
+    if db.teams.find({'teamname': teamname}).count() != 0:
+        return {'status': 0, 'message': "用户名已经被使用."}
+    if db.teams.find({'email': email}).count() != 0:
+        return {'status': 0, 'message': "邮箱已经被使用."}
 
     if len(teamname) > 20:
         return {'status': 0, 'message': "用户名请不要太长.."}
