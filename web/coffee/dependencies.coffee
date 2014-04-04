@@ -133,6 +133,7 @@ window.load_footer = ->
   return
 
 window.handle_submit = (prob_id) ->
+  $.ambiance({message: "答案正在审核，请稍候", type: "success", timeout: 2})
   $.ajax(
     type: "POST"
     cache: false
@@ -145,26 +146,13 @@ window.handle_submit = (prob_id) ->
       recaptcha_challenge: Recaptcha.get_challenge()
       recaptcha_response: Recaptcha.get_response()
   ).done (data) ->
-    prob_msg = $("#msg_" + prob_id)
-    alert_class = ""
-    if data["status"] is 0
-      alert_class = "alert-danger"
-    else alert_class = "alert-success"  if data["status"] is 1
-    prob_msg.append("<div class=\"alert " + alert_class + "\">" + data["message"] + "</div>")
-    setTimeout (->
-      prob_msg.find('div').first().remove()
-    ), 3000
+    if data['status'] == 0
+      $.ambiance({message: data["message"], type: "error", timeout: 10})
+    else if data['status'] == 1
+      $.ambiance({message: data["message"], type: "success", timeout: 7})
     return
   rid = "recaptcha-".concat prob_id
-  #Recaptcha.destroy()
-  Recaptcha.create(
-    "6LcPFPESAAAAALdVWq62jvJ3HEEBvkcOfUOSZ9PV",
-    rid,
-    {
-      theme: "custom",
-      custom_theme_widget: "#{rid}"
-    }
-  )
+  Recaptcha.reload()
 
   return false
 
