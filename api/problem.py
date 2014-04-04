@@ -267,7 +267,7 @@ def submit_problem(tid, request, is_zju_user):
     #if pid not in [p['pid'] for p in load_unlocked_problems(tid)]:
     #    return {"status": 0, "points": 0, "message": "You cannot submit problems you have not unlocked."}
     pid = pid.encode('utf8').strip()
-    key = key.encode('utf8').strip()
+    # key = key.encode('utf8').strip()
     prob = cache.get('problem_' + pid)
     if prob is None:
         prob = db.problems.find_one({"pid": pid})
