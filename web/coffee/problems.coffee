@@ -15,7 +15,7 @@ window.load_problems = ->
             <div class="panel-heading">
               <h4 class="panel-title">
                 <a data-toggle="collapse" data-parent="#problems-accordion" href="#problem-#{id}" class="problem-title">
-                  #{if d['correct'] then '<span class="solved">[已解决]</span>' else '<span class="unsolved">[未解决]</span>'}
+                  #{if d['correct'] then "<span id=\"problem-status-#{id}\" class=\"solved\">[已解决]</span>" else "<span id=\"problem-status-#{id}\" class=\"unsolved\">[未解决]</span>"}
                   #{d['displayname']}
                   <div class="pull-right">
                     <span class="label label-default">#{d['basescore']}</span>
