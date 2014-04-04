@@ -19,7 +19,7 @@ window.load_problems = ->
                   #{d['displayname']}
                   <div class="pull-right">
                     <span class="label label-default">#{d['basescore']}</span>
-                    <span class="label label-#{label_name}">#{d['category']}</span>
+                    <span class="category-label label label-#{label_name}">#{d['category']}</span>
                   </div>
                 </a>
               </h4>
