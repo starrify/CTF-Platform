@@ -150,6 +150,8 @@ window.handle_submit = (prob_id) ->
       $.ambiance({message: data["message"], type: "error", timeout: 10})
     else if data['status'] == 1
       $.ambiance({message: data["message"], type: "success", timeout: 7})
+      $("#problem-status-#{prob_id}").attr("class", "solved")
+      $("#problem-status-#{prob_id}").html("[已解决]")
     return
   rid = "recaptcha-".concat prob_id
   Recaptcha.reload()
