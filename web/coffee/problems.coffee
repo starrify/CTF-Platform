@@ -26,7 +26,22 @@ window.load_problems = ->
             </div>
             <div id="problem-#{id}" class="panel-collapse collapse">
               <div class="panel-body">
-                #{d['desc']}
+                <p>
+                  #{d['desc']}
+                </p>
+                """ + 
+                if d['hint'] != "No hint" then """
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      提示
+                    </div>
+                    <div class="panel-body">
+                      #{d['hint']}
+                    </div>
+                  </div>
+                """
+                else ""
+                + """
                 <hr>
                 <div class="flag-panel">
                   <form onsubmit="javascript:return false;" class="flag-form">
