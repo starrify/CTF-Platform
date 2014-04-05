@@ -9,21 +9,21 @@ display_progress = (problems, solved) ->
 
 
 window.load_scoreboards = ->
-  $.ajax(type: "GET", cache: false, url: "/api/scoreboards", dataType: "json")
+  $.ajax(type: "GET", cache: false, url: "/api/scoreboards", dataType: "json", async: true)
   .done (data) ->
     problems = data["problems"]
     teamscores = data["teamscores"]
     i = 1
     html = ""
-    for score in teamscores
-      progress_html = display_progress problems, score["solved"]
-      html += """
-        <tr>
-          <td>#{i}</td>
-          <td>#{score["teamname"]}</td>
-          <td>#{progress_html}</td>
-          <td>#{score["score"]}</td>
-        </tr>"""
-      i++
-    $("#scoreboard-table").append html
+    setTimeout () -> 
+      for score in teamscores
+        progress_html = display_progress problems, score["solved"]
+        $("#scoreboard-table").append """
+          <tr>
+            <td>#{i}</td>
+            <td>#{score["teamname"]}</td>
+            <td>#{progress_html}</td>
+            <td>#{score["score"]}</td>
+          </tr>"""
+        i++
     $(".progress-bullet").tooltip()
