@@ -30,7 +30,7 @@ window.load_problems = ->
                   #{d['desc']}
                 </p>
                 """ + 
-                if d['hint'] != "No hint" then """
+                if d['hint'] != "" then """
                   <div class="panel panel-info">
                     <div class="panel-heading">
                       提示
