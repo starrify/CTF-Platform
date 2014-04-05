@@ -1,9 +1,10 @@
 display_progress = (problems, solved) ->
   progress_html = "<ul class=\"scoreboard-progress\">"
-  for problem in problems
+  for i in [0...problems.length]
+    problem = problems[i]
     progress_html += """
       <li>
-        <a target="_blank" href="/problems#problem-#{problem["pid"]}" class="progress-bullet #{if problem["pid"] in solved then "solved" else "unsolved"}" data-toggle="tooltip" data-placement="bottom" title="#{problem["displayname"]}"></a>
+        <a target="_blank" href="/problems#problem-#{problem["pid"]}" class="progress-bullet #{if i.toString() in solved then "solved" else "unsolved"}" data-toggle="tooltip" data-placement="bottom" title="#{problem["displayname"]}"></a>
       </li>"""
   progress_html += "</ul>"
 
@@ -12,18 +13,18 @@ window.load_scoreboards = ->
   $.ajax(type: "GET", cache: false, url: "/api/scoreboards", dataType: "json", async: true)
   .done (data) ->
     problems = data["problems"]
-    teamscores = data["teamscores"]
-    i = 1
-    html = ""
+    teamname = data["teamname"]
+    solved = data["solved"]
+    score = data["score"]
     setTimeout () -> 
-      for score in teamscores
-        progress_html = display_progress problems, score["solved"]
+      for i in [0...teamname.length]
+        progress_html = display_progress problems, solved[i]
         $("#scoreboard-table").append """
           <tr>
             <td>#{i}</td>
-            <td>#{score["teamname"]}</td>
+            <td>#{teamname[i]}</td>
             <td>#{progress_html}</td>
-            <td>#{score["score"]}</td>
+            <td>#{score[i]}</td>
           </tr>"""
         i++
     $(".progress-bullet").tooltip()
