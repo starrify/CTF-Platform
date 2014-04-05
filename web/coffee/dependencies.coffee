@@ -154,7 +154,7 @@ window.handle_submit = (prob_id) ->
       $("#problem-status-#{prob_id}").html("[已解决]")
     return
   rid = "recaptcha-".concat prob_id
-  Recaptcha.reload()
+  #Recaptcha.reload()
 
   return false
 
