@@ -143,8 +143,8 @@ window.handle_submit = (prob_id) ->
     data:
       pid: prob_id
       key: $("#" + prob_id).val()
-      recaptcha_challenge: Recaptcha.get_challenge()
-      recaptcha_response: Recaptcha.get_response()
+      # recaptcha_challenge: Recaptcha.get_challenge()
+      # recaptcha_response: Recaptcha.get_response()
   ).done (data) ->
     if data['status'] == 0
       $.ambiance({message: data["message"], type: "error", timeout: 10})
@@ -154,7 +154,7 @@ window.handle_submit = (prob_id) ->
       $("#problem-status-#{prob_id}").html("[已解决]")
     return
   rid = "recaptcha-".concat prob_id
-  Recaptcha.reload()
+  # Recaptcha.reload()
 
   return false
 

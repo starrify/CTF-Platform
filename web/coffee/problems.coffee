@@ -30,7 +30,9 @@ window.load_problems = ->
                 <hr>
                 <div class="flag-panel">
                   <form onsubmit="javascript:return false;" class="flag-form">
-                      <div class="recaptcha-container form-group" id="recaptcha-#{id}"></div>
+                  """ +
+                      # <div class="recaptcha-container form-group" id="recaptcha-#{id}"></div>
+                  """
                       <div class="form-group">
                         <input name="flag" id="#{id}" type="text" class="form-control flag-input" placeholder="FLAG">
                       </div>
@@ -40,6 +42,7 @@ window.load_problems = ->
               </div>
             </div>
           </div>"""
+        ###
         $("#problem-#{id}").on "show.bs.collapse", ()->
           $(this).find(".recaptcha-container").hide().show(300)
           rid = $(this).find(".recaptcha-container").attr("id")
@@ -58,12 +61,13 @@ window.load_problems = ->
               custom_theme_widget: "#{rid}"
             }
           )
+        ###
       $(window.location.hash).collapse("show");
       $("form").each () ->
         $(this).validate
           "rules":
-            "recaptcha_response_field":
-                required: true
+            # "recaptcha_response_field":
+            # required: true
             flag:
                 required: true
           submitHandler: (form) ->
