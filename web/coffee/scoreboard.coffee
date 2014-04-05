@@ -4,7 +4,7 @@ display_progress = (problems, solved) ->
     problem = problems[i]
     progress_html += """
       <li>
-        <a target="_blank" href="/problems#problem-#{problem["pid"]}" class="progress-bullet #{if i.toString() in solved then "solved" else "unsolved"}" data-toggle="tooltip" data-placement="bottom" title="#{problem["displayname"]}"></a>
+        <a target="_blank" href="/problems#problem-#{problem["pid"]}" class="progress-bullet #{if i in solved then "solved" else "unsolved"}" data-toggle="tooltip" data-placement="bottom" title="#{problem["displayname"]}"></a>
       </li>"""
   progress_html += "</ul>"
 
