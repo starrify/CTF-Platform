@@ -263,7 +263,7 @@ def submit_problem(tid, request, is_zju_user):
     t_interval = 10
     last_submitted = cache.get('last_submitted_' + tid)
     if not last_submitted:
-        cache.set('last_submitted_' + tid, True, t_inverval)
+        cache.set('last_submitted_' + tid, True, t_interval)
     else:
         return {"status": 0, "points": 0, "message": "相邻提交之间隔须多于%d秒, 请稍后再试." % t_interval}
 
