@@ -248,6 +248,7 @@ def submit_problem(tid, request, is_zju_user):
     has been tried.
     """
 
+    """
     response = captcha.submit(
         request.form.get('recaptcha_challenge', ''),
         request.form.get('recaptcha_response', ''),
@@ -257,6 +258,14 @@ def submit_problem(tid, request, is_zju_user):
 
     if not response.is_valid:
         return {"status": 0, "points": 0, "message": "验证码不正确."}
+    """
+
+    t_interval = 10
+    last_submitted = cache.get('last_submitted_' + tid)
+    if not last_submitted:
+        cache.set('last_submitted_' + tid, True, t_inverval)
+    else:
+        return {"status": 0, "points": 0, "message": "相邻提交之间隔须多于%d秒, 请稍后再试." % t_interval}
 
     pid = request.form.get('pid', '')
     key = request.form.get('key', '')
