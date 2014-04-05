@@ -1,3 +1,16 @@
+hint_panel = (hint) ->
+  if (hint != "") then """
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        提示
+      </div>
+      <div class="panel-body">
+        #{hint}
+      </div>
+    </div>"""
+  else
+    ""
+
 window.load_problems = ->
   $.ajax(type: "GET", cache: false, url: "/api/problems", dataType: "json")
     .done (data) ->
@@ -29,19 +42,8 @@ window.load_problems = ->
                 <p>
                   #{d['desc']}
                 </p>
-                """ + 
-                if d['hint'] != "" then """
-                  <div class="panel panel-info">
-                    <div class="panel-heading">
-                      提示
-                    </div>
-                    <div class="panel-body">
-                      #{d['hint']}
-                    </div>
-                  </div>
-                """
-                else ""
-                + """
+                #{hint_panel(d['hint'])}
+
                 <hr>
                 <div class="flag-panel">
                   <form onsubmit="javascript:return false;" class="flag-form">
