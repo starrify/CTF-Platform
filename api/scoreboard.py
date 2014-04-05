@@ -134,6 +134,7 @@ def load_team_score(tid):
             {
                 "tid": tid, 
                 "correct": True,
+                "pid": {"$ne": "wait_re"},
                 "timestamp": {"$gt": ctf_start},
                 "timestamp": {"$lt": ctf_end}
             }, {
