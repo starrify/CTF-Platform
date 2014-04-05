@@ -21,8 +21,8 @@ from common import esc
 import problem
 import utilities
 
-ctf_start = utilities.timestamp(datetime(2014, 04, 05, 00) - datetime.utcnow() + datetime.now())
-ctf_end = utilities.timestamp(datetime(2014, 04, 06, 15) - datetime.utcnow() + datetime.now())
+ctf_start = utilities.timestamp(datetime(2014, 4, 5, 0) - datetime.utcnow() + datetime.now())
+ctf_end = utilities.timestamp(datetime(2014, 4, 6, 18) - datetime.utcnow() + datetime.now())
 # # For debugging only
 # ctf_start = utilities.timestamp(datetime(2014, 04, 01, 00) - datetime.utcnow() + datetime.now())
 
@@ -134,6 +134,7 @@ def load_team_score(tid):
             {
                 "tid": tid, 
                 "correct": True,
+                "pid": {"$ne": "wait_re"},
                 "timestamp": {"$gt": ctf_start},
                 "timestamp": {"$lt": ctf_end}
             }, {
@@ -141,7 +142,7 @@ def load_team_score(tid):
                 "pid": 1, 
                 "timestamp": 1
             }))
-        time_penalty = sum(s['timestamp'] - ctf_start for s in submission)
+        time_penalty = max([0] + [s['timestamp'] for s in submission])
         score['time_penalty'] = time_penalty
         cache.set('teamscore_' + tid, json.dumps(score), 60 * 60)
     else:
