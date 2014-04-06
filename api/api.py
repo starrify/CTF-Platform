@@ -1,3 +1,6 @@
+#
+# -*- coding: utf-8 -*-
+
 __author__ = ["Collin Petty", "Peter Chapman"]
 __copyright__ = "Carnegie Mellon University"
 __license__ = "MIT"
@@ -12,6 +15,7 @@ from flask import Flask, request, session, abort, redirect
 from functools import wraps
 import json
 import random
+from datetime import datetime
 
 import account
 import auth
@@ -192,7 +196,13 @@ def get_scoreboards_hook():
 @return_json
 @require_login
 def submit_problem_hook():
-    return problem.submit_problem(session['tid'], request, session['is_zju_user'])
+    ret = problem.submit_problem(session['tid'], request, session['is_zju_user'])
+    tstamp = utilities.timestamp(datetime.utcnow())
+    if tstamp > scoreboard.ctf_end:
+        ret['message'] = '[比赛已经结束] %s' % ret['message']
+        ret['status'] = 0
+        ret['sore'] = 0
+    return ret
 
 
 @app.route('/api/news', methods=['GET'])

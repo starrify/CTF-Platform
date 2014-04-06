@@ -22,6 +22,7 @@ from datetime import datetime
 
 import captcha
 import utilities
+import scoreboard
 
 
 root_web_path = ""
@@ -220,7 +221,13 @@ def get_solved_problems(tid):
 
     solved = cache.get('solved_' + tid)
     if solved is None:
-        solved = list((p['pid'] for p in db.submissions.find({"tid": tid, "correct": True}, {"pid": 1})))
+        solved = list((p['pid'] for p in db.submissions.find({
+            "tid": tid, 
+            "correct": True,
+            "timestamp": {"$lt": scoreboard.ctf_end}
+        }, {
+            "pid": 1
+        })))
         cache.set('solved_' + tid, json.dumps(solved), 60 * 60)
     else:
         solved = json.loads(solved)
@@ -294,13 +301,16 @@ def submit_problem(tid, request, is_zju_user):
     elif grader_type == 'key':
         correct = prob['key'] == key
         message = prob.get('correct_msg', '回答正确!') if correct else prob.get('wrong_msg', '回答错误!')
-
+    message = message.encode('utf8')
+    
+    tstamp = utilities.timestamp(datetime.utcnow())
     submission = {'tid': tid,
-                  'timestamp': utilities.timestamp(datetime.utcnow()),
+                  'timestamp': tstamp,
                   'pid': pid,
                   'ip': request.headers.get('X-Real-IP', None),
                   'key': key,
                   'correct': correct}
+
     if correct:
         #cache.delete('unlocked_' + tid)  # Clear the unlocked problem cache as it needs updating
         cache.delete('solved_' + tid)  # Clear the list of solved problems

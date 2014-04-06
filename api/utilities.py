@@ -21,6 +21,7 @@ import common
 import json
 import datetime
 import time
+import calendar
 import re
 
 enable_email = False
@@ -35,7 +36,7 @@ site_domain = ''
 
 
 def timestamp(dt):
-    return time.mktime(dt.timetuple())
+    return calendar.timegm(dt.timetuple())
 
 
 def is_zju_email(email):

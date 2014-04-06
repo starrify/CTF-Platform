@@ -133,7 +133,7 @@ window.load_footer = ->
   return
 
 window.handle_submit = (prob_id) ->
-  $.ambiance({message: "答案正在审核，请稍候", type: "success", timeout: 2})
+  $.ambiance({message: "答案正在审核，请稍候", type: "success", timeout: 5})
   $.ajax(
     type: "POST"
     cache: false
@@ -147,9 +147,9 @@ window.handle_submit = (prob_id) ->
       # recaptcha_response: Recaptcha.get_response()
   ).done (data) ->
     if data['status'] == 0
-      $.ambiance({message: data["message"], type: "error", timeout: 10})
+      $.ambiance({message: data["message"], type: "error", timeout: 5})
     else if data['status'] == 1
-      $.ambiance({message: data["message"], type: "success", timeout: 7})
+      $.ambiance({message: data["message"], type: "success", timeout: 5})
       $("#problem-status-#{prob_id}").attr("class", "solved")
       $("#problem-status-#{prob_id}").html("[已解决]")
     return

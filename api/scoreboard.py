@@ -21,8 +21,8 @@ from common import esc
 import problem
 import utilities
 
-ctf_start = utilities.timestamp(datetime(2014, 4, 5, 0) - datetime.utcnow() + datetime.now())
-ctf_end = utilities.timestamp(datetime(2014, 4, 6, 18) - datetime.utcnow() + datetime.now())
+ctf_start = utilities.timestamp(datetime(2014, 4, 5, 0))
+ctf_end = utilities.timestamp(datetime(2014, 4, 6, 16))
 # # For debugging only
 # ctf_start = utilities.timestamp(datetime(2014, 04, 01, 00) - datetime.utcnow() + datetime.now())
 
