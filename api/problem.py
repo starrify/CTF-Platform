@@ -254,6 +254,11 @@ def submit_problem(tid, request, is_zju_user):
     (an attempt is made). A relevant message is returned if the problem has already been solved or the answer
     has been tried.
     """
+    # Nginx Configuration Fixed --libmaru
+    """
+    import common
+    common.log('Hello, '+request.remote_addr, 'ERROR')
+    """
 
     """
     response = captcha.submit(
